@@ -1,37 +1,34 @@
-import { useState } from "react";
 import styles from "./FilterItem.module.css";
+import { useFilterStore } from "../../store/filterStore";
 
-type FilterType = "status" | "date" | "sort";
 
 function FilterItem() {
-  const [open, setOpen] = useState<FilterType | null>(null);
-  const [inputValue, setInputValue] = useState("");
-  const [_, setSearch] = useState("");
-  const [status, setStatus] = useState<string[]>([]);
-  const [dateFrom, setDateFrom] = useState<string>("");
-  const [dateTo, setDateTo] = useState<string>("");
-  const [sort, setSort] = useState<string>("default");
 
-  const toggle = (name: FilterType) => {
-    setOpen(open === name ? null : name);
-  };
 
-  const handleCheckBoxChange = (value: string) => {
-    setStatus((prev) => {
-      if (prev.includes(value)) {
-        return prev.filter((item) => item !== value);
-      } else {
-        return [...prev, value];
-      }
-    });
-  };
+  const open = useFilterStore((state) => state.open);
+  const inputValue = useFilterStore((state) => state.inputValue);
+  const sort = useFilterStore((state) => state.sort);
+  const dateFrom = useFilterStore((state) => state.dateFrom);
+  const dateTo = useFilterStore((state) => state.dateTo);
+  const status = useFilterStore((state) => state.status);
+
+  const toggle = useFilterStore((state) => state.toggle);
+  const setInputValue = useFilterStore((state) => state.setInputValue);
+  const clearInput = useFilterStore((state) => state.clearInput);
+  const setSort = useFilterStore((state) => state.setSort);
+  const setDateFrom = useFilterStore((state) => state.setDateFrom);
+  const setDateTo = useFilterStore((state) => state.setDateTo);
+  const toggleStatus = useFilterStore((state) => state.toggleStatus);
+
+
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      setSearch(inputValue);
-      setInputValue(""); // очищаємо поле
+      console.log(status);
+      clearInput();
     }
   };
+
 
   return (
     <div className={styles["filter-container"]}>
@@ -56,7 +53,7 @@ function FilterItem() {
                 <input
                   type="checkbox"
                   checked={status.includes("active")}
-                  onChange={() => handleCheckBoxChange("active")}
+                  onChange={() => toggleStatus("active")}
                 />
                 Активний
               </label>
@@ -64,7 +61,7 @@ function FilterItem() {
                 <input
                   type="checkbox"
                   checked={status.includes("booked")}
-                  onChange={() => handleCheckBoxChange("booked")}
+                  onChange={() => toggleStatus("booked")}
                 />
                 Заброньовано
               </label>
@@ -72,7 +69,7 @@ function FilterItem() {
                 <input
                   type="checkbox"
                   checked={status.includes("completed")}
-                  onChange={() => handleCheckBoxChange("completed")}
+                  onChange={() => toggleStatus("completed")}
                 />
                 Завершено
               </label>
