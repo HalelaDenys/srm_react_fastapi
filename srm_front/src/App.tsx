@@ -6,7 +6,7 @@ function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen  relative ">
+    <div className="flex min-h-screen relative ">
       <button
         className={`lg:hidden absolute top-7 left-4 z-80 bg-gray-800 p-2 rounded 
           ${sidebarOpen ? "hidden" : ""}`}

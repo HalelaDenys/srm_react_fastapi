@@ -131,7 +131,7 @@ function FilterItem() {
           )}
         </div>
       </div>
-      <hr />
+      <hr className="mb-4" />
     </div>
   );
 }
