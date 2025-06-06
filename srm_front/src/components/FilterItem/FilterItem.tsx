@@ -1,9 +1,10 @@
 import styles from "./FilterItem.module.css";
 import { useFilterStore } from "../../store/filterStore";
+import { useEffect, useRef } from "react";
 
 
 function FilterItem() {
-
+  const ref = useRef<HTMLDivElement>(null);
 
   const open = useFilterStore((state) => state.open);
   const inputValue = useFilterStore((state) => state.inputValue);
@@ -20,16 +21,26 @@ function FilterItem() {
   const setDateTo = useFilterStore((state) => state.setDateTo);
   const toggleStatus = useFilterStore((state) => state.toggleStatus);
 
-
-
+  
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       console.log(status);
       clearInput();
     }
   };
-
-
+  
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        useFilterStore.getState().closeDropdowns();
+      };
+    };
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+  }, [toggle]);
+  
   return (
     <div className={styles["filter-container"]}>
       <input
@@ -41,7 +52,7 @@ function FilterItem() {
         onKeyDown={handleKeyDown}
       />
 
-      <div className={styles["filter-wrapper"]}>
+      <div ref={ref} className={styles["filter-wrapper"]}>
         <div className="relative">
           <span onClick={() => toggle("status")} className="cursor-pointer">
             Status

@@ -16,6 +16,7 @@ interface IFilterStore {
     setDateFrom: (value: string) => void;
     setDateTo: (value: string) => void;
     toggleStatus: (value: string) => void;
+    closeDropdowns: () => void;
 };
 
 export const useFilterStore = create<IFilterStore>((set, get) => ({
@@ -39,5 +40,6 @@ export const useFilterStore = create<IFilterStore>((set, get) => ({
         const exists = current.includes(value);
         const updated = exists ? current.filter((s) => s !== value) : [...current, value];
         set({ status: updated });
-    }
+    },
+    closeDropdowns: () => set({ open: null }),
 }));
