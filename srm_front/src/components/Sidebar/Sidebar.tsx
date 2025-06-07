@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 
 interface SidebarProps {
@@ -22,36 +23,21 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       </button>
       <aside>
         <h2 className={styles["h2-style"]}>HOME</h2>
-        <a
-          href="/"
-          className={styles["btn"]}
-        >
+        <NavLink to="/users" className={styles["btn"]}>
           Користувачі
-        </a>
-        <a
-          href="/"
-          className={styles["btn"]}
-        >
+        </NavLink>
+        <NavLink to="/" className={styles["btn"]}>
           Процедури
-        </a>
-        <a
-          href="/"
-          className={styles["btn"]}
-        >
+        </NavLink>
+        <NavLink to="/" className={styles["btn"]}>
           Тренажерний зал
-        </a>
-        <a
-          href="/"
-          className={styles["btn"]}
-        >
+        </NavLink>
+        <NavLink to="/" className={styles["btn"]}>
           Басейн
-        </a>
-        <a
-          href="/"
-          className={styles["btn"]}
-        >
+        </NavLink>
+        <NavLink to="/" className={styles["btn"]}>
           Профіль
-        </a>
+        </NavLink>
       </aside>
     </nav>
   );
