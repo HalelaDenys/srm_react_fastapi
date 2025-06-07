@@ -1,11 +1,14 @@
 import FilterItem from "../FilterItem/FilterItem";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 function Main() {
+    const location = useLocation();
+    const showFilter = location.pathname !== "/";
+
     return (
         <main className="flex-1 p-6 bg-gray-400">
             <h1 className="text-center font-bold text-3xl">SRM</h1>
-            <FilterItem />
+            {showFilter && <FilterItem />}
             <div className="container p-2">
                 <Outlet />
             </div>
