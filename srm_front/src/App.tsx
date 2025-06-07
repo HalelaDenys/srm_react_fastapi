@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Sidebar from "./components/Sidebar/Sidebar";
-import FilterItem from "./components/FilterItem/FilterItem";
+import Main from "./components/Main/Main";
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -19,10 +19,7 @@ function App() {
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Основний контент */}
-      <main className="flex-1 p-6 bg-gray-400">
-        <h1 className="text-center font-bold text-3xl">SRM</h1>
-        <FilterItem />
-      </main>
+      <Main />
     </div>
   );
 }
