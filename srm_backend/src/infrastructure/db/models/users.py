@@ -10,4 +10,4 @@ class User(Base):
     is_active: Mapped[bool] = mapped_column(default=True)
 
     def __repr__(self):
-        return f"{self.__class__.__name__}(id={self.id}, is_active={self.is_active}, "
+        return f"{self.__class__.__name__}(id={self.id}, is_active={self.is_active}"
