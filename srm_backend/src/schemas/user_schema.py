@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 
-from schemas.baseschema import BaseSchema
+from schemas.base_schema import BaseSchema
 from pydantic import Field, field_validator
 from typing import Annotated, Optional
 

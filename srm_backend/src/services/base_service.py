@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
-from schemas.baseschema import BaseSchema
+from schemas.base_schema import BaseSchema
 
 T = TypeVar("T")
 
