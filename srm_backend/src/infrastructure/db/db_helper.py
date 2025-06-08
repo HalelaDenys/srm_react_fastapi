@@ -53,7 +53,7 @@ class DBHelper:
 
 
 db_helper = DBHelper(
-    settings.db.db_url,
+    settings.db.database_url,
     echo=settings.db.echo,
     echo_pool=settings.db.echo_pool,
     pool_size=settings.db.pool_size,
