@@ -2,6 +2,8 @@ from fastapi.responses import ORJSONResponse
 from typing import AsyncGenerator
 from fastapi import FastAPI
 from infrastructure import db_helper
+from api import api_router
+from core import register_error_handlers
 
 
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
@@ -15,5 +17,9 @@ def create_app():
         title="srmAPI",
         default_response_class=ORJSONResponse,
     )
+
+    register_error_handlers(app)
+
+    app.include_router(api_router)
 
     return app
