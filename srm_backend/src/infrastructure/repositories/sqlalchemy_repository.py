@@ -17,6 +17,7 @@ class SQLAlchemyRepository(Generic[ModelType]):
     async def create(self, data: BaseModel) -> ModelType:
         obj = self._model(**data.model_dump())
         self._session.add(obj)
+        await self._session.flush()
         await self._session.refresh(obj)
         return obj
 
@@ -31,6 +32,7 @@ class SQLAlchemyRepository(Generic[ModelType]):
         )
 
         res = await self._session.execute(stmt)
+        await self._session.flush()
         updated_id = res.scalar_one_or_none()
 
         if updated_id is None:

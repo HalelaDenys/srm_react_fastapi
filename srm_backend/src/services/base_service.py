@@ -3,17 +3,15 @@ from typing import Generic, TypeVar
 from schemas.baseschema import BaseSchema
 
 T = TypeVar("T")
-CreateShema = TypeVar("CreateShema", bound=BaseSchema)
-UpdateShema = TypeVar("UpdateShema", bound=BaseSchema)
 
 
-class BaseService(ABC, Generic[T, CreateShema, UpdateShema]):
+class BaseService(ABC, Generic[T]):
     @abstractmethod
-    async def create(self, data: CreateShema) -> T:
+    async def add(self, **kwargs) -> T:
         pass
 
     @abstractmethod
-    async def update(self, data: UpdateShema) -> T:
+    async def update(self, **kwargs) -> T:
         pass
 
     @abstractmethod
