@@ -20,11 +20,22 @@ class DBConfig(BaseModel):
         "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
         "pk": "pk_%(table_name)s",
     }
-    db_url: str
+    postgres_user: str
+    postgres_password: str
+    postgres_host: str
+    postgres_port: str
+    postgres_db: str
     echo: bool = False
     echo_pool: bool = False
     pool_size: int = 5
     max_overflow: int = 10
+
+    @property
+    def database_url(self) -> str:
+        return (
+            f"postgresql+asyncpg://{self.postgres_user}:{self.postgres_password}@"
+            f"{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
+        )
 
 
 class MiddlewareConfig(BaseModel):
