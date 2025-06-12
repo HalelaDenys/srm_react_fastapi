@@ -24,3 +24,8 @@ UNAUTHORIZED_EXC_INVALID_TOKEN = HTTPException(
     status_code=401,
     detail="Invalid token",
 )
+
+FORBIDDEN_EXC_NOT_ENOUGH_RIGHTS = HTTPException(
+    status_code=403,
+    detail="Not enough rights",
+)

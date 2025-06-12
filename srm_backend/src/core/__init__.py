@@ -9,6 +9,7 @@ __all__ = [
     "UNAUTHORIZED_EXC_INVALID_TOKEN",
     "ACCESS_TOKEN",
     "REFRESH_TOKEN",
+    "FORBIDDEN_EXC_NOT_ENOUGH_RIGHTS",
 ]
 
 from core.config import settings
@@ -19,5 +20,6 @@ from core.exceptions import (
     UNAUTHORIZED_EXC_INCORRECT,
     FORBIDDEN_EXC_INACTIVE,
     UNAUTHORIZED_EXC_INVALID_TOKEN,
+    FORBIDDEN_EXC_NOT_ENOUGH_RIGHTS,
 )
 from core.security import Security, ACCESS_TOKEN, REFRESH_TOKEN
