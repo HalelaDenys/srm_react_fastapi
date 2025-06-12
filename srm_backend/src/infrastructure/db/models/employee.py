@@ -16,6 +16,7 @@ class Employee(Base):
     )
     is_active: Mapped[bool] = mapped_column(default=True)
     is_admin: Mapped[bool] = mapped_column(default=False)
+    password: Mapped[str] = mapped_column(VARCHAR(50), nullable=True)
 
     def __repr__(self):
         return (
