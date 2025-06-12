@@ -19,3 +19,8 @@ FORBIDDEN_EXC_INACTIVE = HTTPException(
     status_code=403,
     detail="Inactive user",
 )
+
+UNAUTHORIZED_EXC_INVALID_TOKEN = HTTPException(
+    status_code=401,
+    detail="Invalid token",
+)
