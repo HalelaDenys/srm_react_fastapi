@@ -42,6 +42,13 @@ class MiddlewareConfig(BaseModel):
     cors_allowed_origins: list[str]
 
 
+class AUTHConfig(BaseModel):
+    secret_key: str
+    access_expire_day: int
+    refresh_expire_day: int
+    jwt_algorithm: str = "HS256"
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=BASE_DIR / ".env",
@@ -51,6 +58,7 @@ class Settings(BaseSettings):
     )
     db: DBConfig
     midd: MiddlewareConfig
+    jwt: AUTHConfig
     api_prefix: APIPrefix = APIPrefix()
 
 
