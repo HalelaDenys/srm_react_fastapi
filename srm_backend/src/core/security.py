@@ -1,9 +1,12 @@
 from datetime import timedelta, datetime, timezone
-from infrastructure import Employee
 from core import settings
 from jose import jwt
 import bcrypt
 import uuid
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from infrastructure import Employee
 
 ACCESS_TOKEN = "access"
 REFRESH_TOKEN = "refresh"
@@ -54,7 +57,7 @@ class Security:
         return jwt.encode(to_encode, secret_key, algorithm=settings.jwt.algorithm)
 
     @classmethod
-    def create_access_token(cls, data: Employee) -> str:
+    def create_access_token(cls, data: "Employee") -> str:
         return cls.create_token(
             token_type=ACCESS_TOKEN,
             payload={"sub": str(data.id)},
@@ -62,7 +65,7 @@ class Security:
         )
 
     @classmethod
-    def create_refresh_token(cls, data: Employee) -> str:
+    def create_refresh_token(cls, data: "Employee") -> str:
         return cls.create_token(
             token_type=REFRESH_TOKEN,
             payload={"sub": str(data.id)},
