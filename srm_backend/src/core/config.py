@@ -10,6 +10,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 class APIPrefix(BaseModel):
     api_v1: str = "/api/v1"
     users: str = "/users"
+    auth: str = "/auth"
+    employee: str = "/employee"
 
 
 class DBConfig(BaseModel):

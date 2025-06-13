@@ -65,10 +65,7 @@ class AuthService:
 
         return get_auth_user_from_token
 
-    async def authenticate_user(
-        self,
-        user_data: Annotated[LoginSchema, Form()],
-    ) -> Employee:
+    async def authenticate_user(self, user_data: LoginSchema) -> Employee:
         if not (
             employee := await self._user_repository.find_single(
                 phone_number=user_data.phone_number

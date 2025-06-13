@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import (
     AsyncEngine,
     AsyncSession,
 )
-from core.config import settings
+from core import settings
 
 
 class DBHelper:
