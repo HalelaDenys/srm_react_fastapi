@@ -33,7 +33,7 @@ async def login(
     status_code=status.HTTP_200_OK,
 )
 async def create_new_access_token(
-    current_user: Annotated[Employee, get_current_auth_user_for_refresh],
+    current_user: Annotated[Employee, Depends(get_current_auth_user_for_refresh)],
 ):
     access_token = Security.create_access_token(current_user)
     return TokenInfo(

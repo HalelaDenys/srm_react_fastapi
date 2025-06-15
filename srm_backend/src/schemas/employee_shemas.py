@@ -1,10 +1,10 @@
-import re
-
-from schemas.base_schema import BaseSchema
+from schemas.user_schema import UserSchema, UpdateUserSchema
 from pydantic import Field, field_validator, EmailStr
+from schemas.base_schema import BaseSchema
+from schemas.enums import EmployeePosition
 from typing import Annotated, Optional
-
-from schemas.user_schema import UserSchema
+import re
+from datetime import datetime
 
 
 class LoginSchema(BaseSchema):
@@ -26,6 +26,26 @@ class TokenInfo(BaseSchema):
 
 
 class CreateEmployeeSchema(UserSchema):
+    patronymic: Annotated[Optional[str], Field(min_length=1, max_length=50)] = None
     password: Annotated[str, Field(min_length=5, max_length=50)]
     email: EmailStr
     is_admin: bool
+    position: EmployeePosition
+
+
+class UpdateEmployeeSchema(UpdateUserSchema):
+    patronymic: Annotated[Optional[str], Field(min_length=1, max_length=50)] = None
+    password: Annotated[Optional[str], Field(min_length=5, max_length=50)] = None
+    email: Optional[EmailStr] = None
+    is_admin: Optional[bool] = None
+    is_active: Optional[bool] = None
+    position: Optional[EmployeePosition] = None
+
+
+class ReadEmployeeSchema(UserSchema):
+    patronymic: str | None
+    email: EmailStr
+    position: EmployeePosition
+    is_admin: bool
+    is_active: bool
+    created_at: datetime
