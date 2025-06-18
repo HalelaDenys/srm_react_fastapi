@@ -1,16 +1,19 @@
 from fastapi import APIRouter, Depends, status, Path
 from core import settings
 from typing import Annotated
+
 from services.employee_service import get_employee_service, EmployeeService
 from schemas.employee_shemas import (
     CreateEmployeeSchema,
     UpdateEmployeeSchema,
     ReadEmployeeSchema,
 )
+from core.dependencies.auth import check_user_is_admin, http_bearer
 
 router = APIRouter(
     prefix=settings.api_prefix.employees,
     tags=["Employees"],
+    dependencies=[Depends(http_bearer)],
 )
 
 
@@ -18,6 +21,7 @@ router = APIRouter(
 async def create_employee(
     employee_data: CreateEmployeeSchema,
     employee_service: Annotated["EmployeeService", Depends(get_employee_service)],
+    current_user: Annotated[bool, Depends(check_user_is_admin)],
 ) -> ReadEmployeeSchema:
     employee = await employee_service.add(data=employee_data)
     return ReadEmployeeSchema(**employee.to_dict())

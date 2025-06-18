@@ -1,24 +1,19 @@
-from fastapi import Depends, APIRouter, status, Form
+from fastapi import Depends, APIRouter, status
 from typing import Annotated
 from core import settings, Security
-from core.dependencies.auth import (
-    get_current_auth_user_for_refresh,
-)
+from core.dependencies.auth import get_current_auth_user_for_refresh, authenticate_user
 from infrastructure import Employee
-from schemas.employee_shemas import LoginSchema, TokenInfo
-from services.auth_service import get_auth_service, AuthService
+from schemas.employee_shemas import TokenInfo
 
 router = APIRouter(prefix=settings.api_prefix.auth, tags=["Auth"])
 
 
 @router.post("/login", status_code=status.HTTP_200_OK)
 async def login(
-    employee_data: Annotated[LoginSchema, Form()],
-    auth_service: Annotated["AuthService", Depends(get_auth_service)],
+    employee_data: Annotated["Employee", Depends(authenticate_user)],
 ) -> TokenInfo:
-    employee = await auth_service.authenticate_user(employee_data)
-    access_token = Security.create_access_token(employee)
-    refresh_token = Security.create_refresh_token(employee)
+    access_token = Security.create_access_token(employee_data)
+    refresh_token = Security.create_refresh_token(employee_data)
     return TokenInfo(
         access_token=access_token,
         refresh_token=refresh_token,
