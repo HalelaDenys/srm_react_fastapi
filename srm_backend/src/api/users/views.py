@@ -1,3 +1,4 @@
+from core.dependencies.auth import check_user_is_admin
 from schemas.user_schema import UserSchema, UpdateUserSchema, ReadUserSchema
 from services.user_service import get_user_service, UserService
 from fastapi import Depends, APIRouter, status, Path
@@ -10,6 +11,7 @@ router = APIRouter(prefix=settings.api_prefix.users, tags=["Users"])
 @router.post("", status_code=status.HTTP_201_CREATED)
 async def create_user(
     user_data: UserSchema,
+    is_admin: Annotated[bool, Depends(check_user_is_admin)],
     user_service: Annotated["UserService", Depends(get_user_service)],
 ) -> ReadUserSchema:
     user = await user_service.add(data=user_data)
