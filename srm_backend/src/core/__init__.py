@@ -10,6 +10,7 @@ __all__ = [
     "ACCESS_TOKEN",
     "REFRESH_TOKEN",
     "FORBIDDEN_EXC_NOT_ENOUGH_RIGHTS",
+    "register_middleware",
 ]
 
 from core.config import settings
@@ -23,3 +24,4 @@ from core.exceptions import (
     FORBIDDEN_EXC_NOT_ENOUGH_RIGHTS,
 )
 from core.security import Security, ACCESS_TOKEN, REFRESH_TOKEN
+from core.middlewares import register_middleware
