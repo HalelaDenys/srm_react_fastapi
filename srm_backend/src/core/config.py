@@ -48,7 +48,7 @@ class AUTHConfig(BaseModel):
     secret_key: str
     access_expire_day: int
     refresh_expire_day: int
-    jwt_algorithm: str = "HS256"
+    algorithm: str = "HS256"
 
 
 class Settings(BaseSettings):

@@ -86,5 +86,5 @@ class AuthService:
 
 
 async def get_auth_service() -> AsyncGenerator[AuthService, None]:
-    async with db_helper.async_session() as session:
+    async with db_helper.get_session() as session:
         yield AuthService(session=session)
