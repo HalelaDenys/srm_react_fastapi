@@ -1,14 +1,47 @@
+import { useState, useEffect } from "react";
+import get_users, { type IUser } from "../../api/users";
 import ContentItem from "../../components/ContentItem/ContentItem";
-import userData from "../../data.json";
+// import userData from "../../data.json";
 
-function Home() {
-    const id: number = userData.id
-    const FirstName: string = userData.FirstName
-    const secondName: string = userData.secondName
-    const age: number = userData.age
+function Users() {
+    const [userData, setUserData] = useState<IUser[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        const fatchData = async () => {
+            try {
+                const data = await get_users();
+                setUserData(data);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fatchData();
+    }, []);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (userData.length === 0) {
+        return <div className="text-center">No users found.</div>;
+    }
+
     return (
-        <ContentItem id={id} firstName={FirstName} secondName={secondName} age={age} />
+        <>
+            {userData.map((user) => (
+                <ContentItem
+                    key={user.id}
+                    id={user.id}
+                    firstName={user.firstName}
+                    lastName={user.lastName}
+                />
+            ))}
+        </>
     );
 }
 
-export default Home;
+export default Users;

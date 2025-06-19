@@ -1,22 +1,27 @@
 import { useState } from "react";
 import styles from "./Login.module.css";
 import { useNavigate } from "react-router-dom";
+import login from "../../api/auth";
 
 function Login() {
-  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
 
-    // Простий приклад перевірки (тут буде API)
-    if (email === "test@example.com" && password === "123456") {
-      localStorage.setItem("token", "your_jwt_token");
+
+    try {
+      const response = await login(phoneNumber, password);
+      const token = response.access_token;
+      localStorage.setItem("token", token);
       navigate("/");
-    } else {
-      setError("Невірний email або пароль");
+    } catch (err) {
+      setError("Невірний номер телефону або пароль");
+      console.error(err);
     }
   };
 
@@ -26,11 +31,11 @@ function Login() {
         <h2 className="text-2xl mb-4">Вхід</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full">
           <input
-            type="email"
+            type="text"
             className={styles["input"]}
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            placeholder="+380 67 123 45 67"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
             required
           />
           <input
