@@ -21,6 +21,7 @@ async def create_user(
 @router.get("/{user_id}", status_code=status.HTTP_200_OK)
 async def get_user_by_id(
     user_id: Annotated[int, Path(ge=1)],
+    is_admin: Annotated[bool, Depends(check_user_is_admin)],
     user_service: Annotated["UserService", Depends(get_user_service)],
 ) -> ReadUserSchema:
     user = await user_service.get(id=user_id)
@@ -29,6 +30,7 @@ async def get_user_by_id(
 
 @router.get("", status_code=status.HTTP_200_OK)
 async def get_users(
+    is_admin: Annotated[bool, Depends(check_user_is_admin)],
     user_service: Annotated["UserService", Depends(get_user_service)],
 ) -> list[ReadUserSchema]:
     return await user_service.get_all_users()
@@ -37,6 +39,7 @@ async def get_users(
 @router.patch("/{user_id}", status_code=status.HTTP_200_OK)
 async def update_user(
     user_id: Annotated[int, Path(ge=1)],
+    is_admin: Annotated[bool, Depends(check_user_is_admin)],
     user_data: UpdateUserSchema,
     user_service: Annotated["UserService", Depends(get_user_service)],
 ) -> ReadUserSchema:
@@ -46,6 +49,7 @@ async def update_user(
 
 @router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_user(
+    is_admin: Annotated[bool, Depends(check_user_is_admin)],
     user_id: Annotated[int, Path(ge=1)],
     user_service: Annotated["UserService", Depends(get_user_service)],
 ) -> None:
