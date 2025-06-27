@@ -32,6 +32,7 @@ function Users() {
         },
     });
 
+
     const handleCreateUser =  (data: { firstName: string; lastName: string; phoneNumber: string }) => {
         createMutation.mutate(data);
         setIsModalOpen(false);
@@ -65,7 +66,6 @@ function Users() {
                     />
                 ))}
             </div>
-
             <ModalWnd
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
