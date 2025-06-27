@@ -1,18 +1,21 @@
 import styles from "./ContentItem.module.css";
+import { Link } from "react-router-dom";
 
-interface User {
+interface IContentItemProps {
     id: number;
-    firstName: string;
-    lastName: string;
+    title: string;
+    endpoint: string;
+    onDelete?: (id: number) => void;
 }
 
-function ContentItem({ id, firstName, lastName }: User) {
+function ContentItem({ id, title, endpoint, onDelete }: IContentItemProps) {
     return (
         <div className={styles["content-item"]} id={id.toString()}>
-            <p className="text-md font-bold">{firstName} {lastName}!</p>
+            <p className="text-md font-bold">{title}!</p>
             <div className="flex gap-2.5 justify-center items-center">
-                <button className="cursor-pointe hover:opacity-50">🛠️</button>
-                <button className="cursor-pointer hover:opacity-50">❌</button>
+                <Link to={`/${endpoint}/${id}`} className="cursor-pointer hover:opacity-50">🛠️</Link>
+                <button className="cursor-pointer hover:opacity-50"     
+                onClick={() => onDelete?.(id)}>❌</button>
             </div>
         </div>
     );
