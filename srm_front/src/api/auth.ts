@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "./instanceAPI";
 
 interface ILoginResponse {
     access_token: string;
@@ -6,7 +6,6 @@ interface ILoginResponse {
     type: string;
 }
 
-const API_URL = import.meta.env.VITE_API_URL;
 
 const login = async (phoneNumber: string, password: string): Promise<ILoginResponse> => {
     const formData = new URLSearchParams();
@@ -14,7 +13,7 @@ const login = async (phoneNumber: string, password: string): Promise<ILoginRespo
     formData.append("password", password);
 
     try {
-        const response = await axios.post(`${API_URL}/auth/login`, formData, {
+        const response = await api.post("/auth/login", formData, {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
