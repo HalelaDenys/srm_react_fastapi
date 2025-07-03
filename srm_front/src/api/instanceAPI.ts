@@ -1,17 +1,17 @@
 import axios from "axios";
-import isTokenExpired from "../utils/auth";
+import { isTokenExpired, getTokenFromLocalStorage} from "../utils/auth";
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_maleAPI_URL,
+    baseURL: import.meta.env.VITE_API_URL,
 });
 
 api.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem("token");
+        const token = getTokenFromLocalStorage();
 
         if (token && isTokenExpired(token)) {
             localStorage.removeItem("token");
-            window.location.href = "/login";  // просто редірект без React Router
+            window.location.href = "/login";
             return Promise.reject("Token expired");
         }
 
