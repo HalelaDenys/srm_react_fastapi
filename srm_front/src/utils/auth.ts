@@ -5,7 +5,7 @@ interface JwtPayload {
   [key: string]: any;
 }
 
-const isTokenExpired = (token: string): boolean => {
+export const isTokenExpired = (token: string): boolean => {
   try {
     const payload = jwtDecode<JwtPayload>(token);
     const currentTime = Math.floor(Date.now() / 1000);
@@ -15,5 +15,7 @@ const isTokenExpired = (token: string): boolean => {
   }
 };
 
+export  const getTokenFromLocalStorage = (): string | null => {
+  return localStorage.getItem("token");
+};
 
-export default isTokenExpired;
