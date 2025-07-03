@@ -15,7 +15,7 @@ export const isTokenExpired = (token: string): boolean => {
   }
 };
 
-export  const getTokenFromLocalStorage = (): string | null => {
+export const getTokenFromLocalStorage = (): string | null => {
   return localStorage.getItem("token");
 };
 
