@@ -19,7 +19,7 @@ function ModalWnd({ isOpen, onClose, title, content }: IModalWndProps) {
             className="modal fixed inset-0 bg-gray-900 opacity-90 flex items-center justify-center z-50"
             onClick={handleBackgroundClick}
         >
-            <div className="bg-zinc-300 p-6 rounded-lg shadow-lg w-full max-w-md relative">
+            <div className="bg-zinc-400 p-6 rounded-lg shadow-lg w-full max-w-md relative">
                 <h2 className="text-xl font-bold mb-4">{title}</h2>
                 <i
                     onClick={onClose}
