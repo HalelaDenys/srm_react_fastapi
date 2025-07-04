@@ -11,11 +11,11 @@ class UserService(BaseService):
         self._user_repository = UserRepository(session)
 
     async def add(self, data: UserSchema) -> User:
-        if await self._user_repository.find_single(phone_number=data.phone_number):
-            raise AlreadyExistsError("User already exists")
+        await self.check_phone_number(phone_number=data.phone_number)
         return await self._user_repository.create(data)
 
     async def update(self, user_id: int, data: UpdateUserSchema) -> User:
+        await self.check_phone_number(phone_number=data.phone_number)
         await self.get(id=user_id)
         return await self._user_repository.update(id=user_id, data=data)
 
@@ -31,6 +31,10 @@ class UserService(BaseService):
     async def get_all_users(self) -> list[ReadUserSchema]:
         users = await self._user_repository.find_all_users()
         return [ReadUserSchema(**user.to_dict()) for user in users]
+
+    async def check_phone_number(self, phone_number: str) -> None:
+        if await self._user_repository.find_single(phone_number=phone_number):
+            raise AlreadyExistsError("User already exists")
 
 
 async def get_user_service() -> AsyncGenerator[UserService, None]:

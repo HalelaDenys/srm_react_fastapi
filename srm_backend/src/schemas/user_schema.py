@@ -17,9 +17,8 @@ class UserSchema(BaseSchema):
         str, Field(min_length=5, max_length=20, description="Phone number")
     ]
 
-    @staticmethod
     @field_validator("phone_number")
-    def validate_phone_number(value: str):
+    def validate_phone_number(cls, value: str) -> str:
         if not re.match(r"^\+\d{5,15}$", value):
             raise ValueError("Phone number must be entered in the format: +999999999")
         return value
