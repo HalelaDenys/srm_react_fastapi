@@ -1,14 +1,14 @@
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import UsersCard from "./page/Card/UsersCard/UsersCard";
+import Login from "./page/Login/Login";
+import Users from "./page/Users/Users";
+import Home from "./page/Home/Home";
 import {
     createBrowserRouter,
     createRoutesFromElements,
     Route,
 } from "react-router-dom";
 import App from "./App";
-import Home from "./page/Home/Home";
-import Users from "./page/Users/Users";
-import Login from "./page/Login/Login";
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
-import UsersCard from "./page/UsersCard/UsersCard";
 
 
 const router = createBrowserRouter(

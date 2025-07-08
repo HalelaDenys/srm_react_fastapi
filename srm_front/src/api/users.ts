@@ -1,10 +1,11 @@
-import api from "./instanceAPI";
+import { getTokenFromLocalStorage } from "../utils/auth";
 import type {
   IUser,
   IUserCreateFormData,
   IUserRaw,
 } from "../entities/user.types";
-import { getTokenFromLocalStorage } from "../utils/auth";
+import api from "./instanceAPI";
+import axios from "axios";
 
 const token = getTokenFromLocalStorage();
 
@@ -19,8 +20,13 @@ export const fetchUsers = async (): Promise<IUserRaw[]> => {
 
     return response.data;
   } catch (error: any) {
-    console.error(error);
-    throw error;
+    if (axios.isAxiosError(error) && error.response?.data?.detail) {
+      throw error;
+    }
+    throw {
+      type: "unknown_error",
+      error,
+    };
   }
 };
 
@@ -34,8 +40,13 @@ export const fetchUsersById = async (id: number): Promise<IUserRaw> => {
     });
     return response.data;
   } catch (error: any) {
-    console.error(error);
-    throw error;
+    if (axios.isAxiosError(error) && error.response?.data?.detail) {
+      throw error;
+    }
+    throw {
+      type: "unknown_error",
+      error,
+    };
   }
 };
 
@@ -51,9 +62,14 @@ export const updateUser = async (
       },
     });
     return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
+  } catch (error: any) {
+    if (axios.isAxiosError(error) && error.response?.data?.detail) {
+      throw error;
+    }
+    throw {
+      type: "unknown_error",
+      error,
+    };
   }
 };
 
@@ -67,12 +83,19 @@ export const deleteUser = async (id: number): Promise<void> => {
     });
     return;
   } catch (error) {
-    console.error(error);
-    throw error;
+    if (axios.isAxiosError(error) && error.response?.data?.detail) {
+      throw error;
+    }
+    throw {
+      type: "unknown_error",
+      error,
+    };
   }
 };
 
-export const createUser = async (userData: IUserCreateFormData): Promise<IUserRaw> => {
+export const createUser = async (
+  userData: IUserCreateFormData
+): Promise<IUserRaw> => {
   const data = {
     first_name: userData.firstName,
     last_name: userData.lastName,
@@ -87,7 +110,12 @@ export const createUser = async (userData: IUserCreateFormData): Promise<IUserRa
     });
     return response.data;
   } catch (error) {
-    console.error(error);
-    throw error;
+    if (axios.isAxiosError(error) && error.response?.data?.detail) {
+      throw error;
+    }
+    throw {
+      type: "unknown_error",
+      error,
+    };
   }
 };
