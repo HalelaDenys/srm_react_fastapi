@@ -3,7 +3,9 @@ import { Outlet, useLocation } from "react-router-dom";
 
 function Main() {
     const location = useLocation();
-    const showFilter = location.pathname !== "/";
+    // const showFilter = location.pathname !== "/";
+    const isUserDetail = /^\/users\/\d+$/.test(location.pathname); // проверка, что путь вида /users/число
+    const showFilter = location.pathname !== "/" && !isUserDetail;
 
     return (
         <main className="flex-1 p-6 bg-gray-400">

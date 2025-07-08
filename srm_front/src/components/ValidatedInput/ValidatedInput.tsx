@@ -19,7 +19,7 @@ function ValidatedInput({
 }: ValidatedInputProps) {
   return (
     <>
-      <label>{label}</label>
+      <label className="text-lg font-medium italic">{label}</label>
       {type === "checkbox" ? (
         <input
           id={name}

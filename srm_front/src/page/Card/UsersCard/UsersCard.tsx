@@ -1,10 +1,11 @@
+import ConfirmDeleteModal from "../../../components/Modals/ConfirmDeleteModal/ConfirmDeleteModal";
+import useDeleteUserHandler from "../../../hooks/userHooks/useDeleteUserHandler";
+import ValidatedInput from "../../../components/ValidatedInput/ValidatedInput";
+import useUpdateUserForm from "../../../hooks/userHooks/useUpdateUserForm";
+import useUserForm from "../../../hooks/userHooks/useUserForm";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import ValidatedInput from "../../../components/ValidatedInput/ValidatedInput";
-import ConfirmDeleteModal from "../../../components/Modals/ConfirmDeleteModal/ConfirmDeleteModal";
-import useUserForm from "../../../hooks/userHooks/useUserForm";
-import useUpdateUserForm from "../../../hooks/userHooks/useUpdateUserForm";
-import useDeleteUserHandler from "../../../hooks/userHooks/useDeleteUserHandler";
+import BackBtn from "../../../components/BackBtn/BackBtn";
 
 function UsersCard() {
   const { id } = useParams<{ id?: string }>();
@@ -34,9 +35,11 @@ function UsersCard() {
 
   return (
     <div>
-      <h1>Користувач ID: {id}</h1>
+      <BackBtn endpoint="users" />
+
+      <h1 className="text-xl my-3">Користувач ID: {id}</h1>
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col border border-gray-300 p-4">
+        <div className="flex flex-col border border-black p-4">
           <div>
             <ValidatedInput
               label="Ім'я: "
@@ -89,7 +92,7 @@ function UsersCard() {
             />
           </div>
           <div className="mt-2">
-            <span>Створено: {formatted}</span>
+            <span className="text-lg italic">Створено: {formatted}</span>
           </div>
         </div>
         <div className="flex justify-end mt-2">
@@ -100,7 +103,7 @@ function UsersCard() {
               className="mr-2 px-4 py-2 bg-purple-600 text-white 
       rounded hover:bg-purple-800 transition duration-300 ease-in-out disabled:opacity-50"
             >
-              Update
+              Оновити
             </button>
           )}
           <button

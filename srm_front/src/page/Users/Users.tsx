@@ -1,5 +1,4 @@
 import { useCreateUser } from "../../hooks/userHooks/useCreateUser";
-import { useDeleteUser } from "../../hooks/userHooks/useDeleteUser";
 import ContentItem from "../../components/ContentItem/ContentItem";
 import UserForm from "../../components/Form/UserForm/UserForm";
 import type { IUserCreateFormData } from "../../entities/user.types";
@@ -11,11 +10,7 @@ function Users() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: userData = [], isLoading, error } = useUsers();
   const createUserMutation = useCreateUser();
-  const deleteUserMutation = useDeleteUser();
 
-  const handleDelete = (id: number) => {
-    deleteUserMutation.mutate(id);
-  };
 
   const handleSubmit = (data: IUserCreateFormData) => {
     createUserMutation.mutate(data);
@@ -34,21 +29,21 @@ function Users() {
     <div>
       <div className="flex justify-center">
         <button
-          className="mb-1 p-1.5 text-white hover:text-purple-700
-                transition duration-300 ease-in-out"
+          className="mb-1 p-1.5 text-white border border-transparent rounded
+        hover:text-purple-700 hover:border-purple-700
+          transition duration-600 ease-in-out"
           onClick={() => setIsModalOpen(true)}
         >
           Create New User
         </button>
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 mt-1">
         {userData.map((user) => (
           <ContentItem
             key={user.id}
             id={user.id}
             title={user.firstName + " " + user.lastName}
             endpoint="users"
-            onDelete={handleDelete}
           />
         ))}
       </div>
