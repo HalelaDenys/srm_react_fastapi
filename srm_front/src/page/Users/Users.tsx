@@ -3,7 +3,7 @@ import { useDeleteUser } from "../../hooks/userHooks/useDeleteUser";
 import ContentItem from "../../components/ContentItem/ContentItem";
 import UserForm from "../../components/Form/UserForm/UserForm";
 import type { IUserCreateFormData } from "../../entities/user.types";
-import ModalWnd from "../../components/ModalWnd/ModalWnd";
+import ModalWnd from "../../components/Modals/ModalWnd/ModalWnd";
 import { useUsers } from "../../hooks/userHooks/useUsers";
 import { useState } from "react";
 
