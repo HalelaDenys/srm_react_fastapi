@@ -31,3 +31,12 @@ export interface UpdateUserInput {
   id: number;
   data: Partial<IUser>;
 }
+
+export interface UserQueryParams {
+  status: "is_active" | "is_inactive" | "all";
+  search?: string;
+  date_from?: string;
+  date_to?: string;
+  sort_by: "created_at" | "first_name" | "last_name";
+  sort_order: "asc" | "desc";
+}
