@@ -42,3 +42,15 @@ export function transformKeysToSnakeCase<T extends Record<string, any>>(
 
   return result;
 }
+
+export function cleanedFilters(
+  filters?: Record<string, any>
+): Record<string, string> {
+  if (!filters) return {};
+  
+  return Object.fromEntries(
+    Object.entries(filters)
+      .filter(([_, value]) => value !== undefined && value !== null && value !== "")
+      .map(([key, value]) => [key, String(value)])
+  );
+}

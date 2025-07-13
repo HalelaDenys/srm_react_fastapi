@@ -19,3 +19,11 @@ export const getTokenFromLocalStorage = (): string | null => {
   return localStorage.getItem("token");
 };
 
+export const currentUserId = (): number => {
+  const token = getTokenFromLocalStorage();
+  if (token) {
+    const payload = jwtDecode<JwtPayload>(token);
+    return Number(payload.sub);
+  }
+  return 0;
+}
