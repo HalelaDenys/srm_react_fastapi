@@ -9,13 +9,16 @@ import axios from "axios";
 
 const token = getTokenFromLocalStorage();
 
-export const fetchUsers = async (): Promise<IUserRaw[]> => {
+export const fetchUsers = async (
+  query?: Record<string, string>
+): Promise<IUserRaw[]> => {
   try {
     const response = await api.get("/users", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      params: query ,
     });
 
     return response.data;
