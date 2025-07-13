@@ -3,7 +3,8 @@ from datetime import datetime
 
 from schemas.base_schema import BaseSchema
 from pydantic import Field, field_validator
-from typing import Annotated, Optional
+from typing import Annotated, Optional, Literal
+from datetime import date
 
 
 class UserSchema(BaseSchema):
@@ -41,3 +42,29 @@ class ReadUserSchema(UserSchema):
     id: int
     is_active: bool
     created_at: datetime
+
+
+class FilterParamsSchema(BaseSchema):
+    status: Literal["is_active", "is_inactive", "all"] = "all"
+
+    search: Annotated[
+        Optional[str],
+        Field(
+            min_length=3,
+            max_length=50,
+            description="Search by keyword",
+        ),
+    ] = None
+
+    date_from: Annotated[Optional[date], Field(description="start date")] = None
+    date_to: Annotated[Optional[date], Field(description="end date")] = None
+
+    sort_by: Annotated[
+        Literal["created_at", "first_name", "last_name"], Field(description="sort by")
+    ] = "created_at"
+    sort_order: Annotated[Literal["asc", "desc"], Field(description="sort order")] = (
+        "desc"
+    )
+
+
+# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc1MjQzMDI1OCwiaWF0IjoxNzUyMzQzODU4LCJqdGkiOiJkZjNjMDBmMy03OGY5LTQxOGUtOGMwZS00NmViZmQxZWRjMTgifQ.s7BJqAGirsLZge97SEEXVcoQ0-2ttJilSZt8YuId_pY

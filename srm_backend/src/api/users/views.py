@@ -1,7 +1,12 @@
-from core.dependencies.auth import check_user_is_admin
-from schemas.user_schema import UserSchema, UpdateUserSchema, ReadUserSchema
+from schemas.user_schema import (
+    UserSchema,
+    UpdateUserSchema,
+    ReadUserSchema,
+    FilterParamsSchema,
+)
 from services.user_service import get_user_service, UserService
-from fastapi import Depends, APIRouter, status, Path
+from fastapi import Depends, APIRouter, status, Path, Query
+from core.dependencies.auth import check_user_is_admin
 from core.config import settings
 from typing import Annotated
 
@@ -32,8 +37,9 @@ async def get_user_by_id(
 async def get_users(
     is_admin: Annotated[bool, Depends(check_user_is_admin)],
     user_service: Annotated["UserService", Depends(get_user_service)],
+    filter_params: Annotated[FilterParamsSchema, Query()],
 ) -> list[ReadUserSchema]:
-    return await user_service.get_all_users()
+    return await user_service.get_all_users(filter_params)
 
 
 @router.patch("/{user_id}", status_code=status.HTTP_200_OK)

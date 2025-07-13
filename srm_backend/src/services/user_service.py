@@ -1,4 +1,9 @@
-from schemas.user_schema import UserSchema, UpdateUserSchema, ReadUserSchema
+from schemas.user_schema import (
+    UserSchema,
+    UpdateUserSchema,
+    ReadUserSchema,
+    FilterParamsSchema,
+)
 from core.exceptions import NotFoundError, AlreadyExistsError
 from infrastructure import UserRepository, User, db_helper
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -28,8 +33,17 @@ class UserService(BaseService):
             raise NotFoundError("User not found")
         return user
 
-    async def get_all_users(self) -> list[ReadUserSchema]:
-        users = await self._user_repository.find_all_users()
+    async def get_all_users(
+        self, filter_params: FilterParamsSchema
+    ) -> list[ReadUserSchema]:
+        users = await self._user_repository.find_all_users(
+            sort_by=filter_params.sort_by,
+            sort_order=filter_params.sort_order,
+            status=filter_params.status,
+            search=filter_params.search,
+            date_from=filter_params.date_from,
+            date_to=filter_params.date_to,
+        )
         return [ReadUserSchema(**user.to_dict()) for user in users]
 
     async def check_phone_number(self, phone_number: str) -> None:
