@@ -1,3 +1,6 @@
+/**
+  Given two objects, returns a new object with only the fields that have changed.
+ */
 export function getChangedFields<T>(original: T, updated: T): Partial<T> {
     const changed: Partial<T> = {};
 
@@ -17,6 +20,9 @@ export function snakeToCamel(text: string): string {
     return text.replace(/(_\w)/g, letter => letter[1].toUpperCase());
 }
 
+/**
+  Transforms the keys of an object from snake_case to camelCase.
+ */
 export function transformKeysToCamelCase<T extends Record<string, any>>(
   obj: T
 ): Record<string, any> {
@@ -29,6 +35,10 @@ export function transformKeysToCamelCase<T extends Record<string, any>>(
 
   return result;
 }
+
+/**
+  Transforms the keys of an object from camelCase to snake_case.
+ */
 
 export function transformKeysToSnakeCase<T extends Record<string, any>>(
   obj: T
@@ -43,6 +53,9 @@ export function transformKeysToSnakeCase<T extends Record<string, any>>(
   return result;
 }
 
+/**
+  Filters out any keys that have an undefined, null, or empty string value
+ */
 export function cleanedFilters(
   filters?: Record<string, any>
 ): Record<string, string> {
@@ -53,4 +66,13 @@ export function cleanedFilters(
       .filter(([_, value]) => value !== undefined && value !== null && value !== "")
       .map(([key, value]) => [key, String(value)])
   );
+}
+
+export function formatDateString(date: string): string {
+  const parsedDate = new Date(date);
+  return parsedDate.toLocaleString("uk-UA", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
 }

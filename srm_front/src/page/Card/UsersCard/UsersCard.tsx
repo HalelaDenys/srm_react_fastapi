@@ -6,6 +6,7 @@ import useUserForm from "../../../hooks/userHooks/useUserForm";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import BackBtn from "../../../components/BackBtn/BackBtn";
+import { formatDateString } from "../../../utils/utils";
 
 function UsersCard() {
   const { id } = useParams<{ id?: string }>();
@@ -25,12 +26,7 @@ function UsersCard() {
   if (!userForm) return <p>Немає даних користувача</p>;
 
   const isChanged = JSON.stringify(userData) !== JSON.stringify(userForm);
-  const date = new Date(userData!.createdAt!);
-  const formatted = date.toLocaleString("uk-UA", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
+  const formattedDate = formatDateString(userData!.createdAt!);
 
 
   return (
@@ -92,7 +88,7 @@ function UsersCard() {
             />
           </div>
           <div className="mt-2">
-            <span className="text-lg italic">Створено: {formatted}</span>
+            <span className="text-lg italic">Створено: {formattedDate}</span>
           </div>
         </div>
         <div className="flex justify-end mt-2">
