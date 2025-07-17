@@ -26,8 +26,8 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
         <NavLink to="/users" className={styles["btn"]}>
           Користувачі
         </NavLink>
-        <NavLink to="/" className={styles["btn"]}>
-          Процедури
+        <NavLink to="/employees" className={styles["btn"]}>
+          Співробітники
         </NavLink>
         <NavLink to="/" className={styles["btn"]}>
           Тренажерний зал

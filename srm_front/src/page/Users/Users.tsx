@@ -8,7 +8,7 @@ import UserForm from "../../components/Form/UserForm/UserForm";
 import { transformKeysToSnakeCase } from "../../utils/utils";
 import { useUsers } from "../../hooks/userHooks/useUsers";
 import { currentUserId } from "../../utils/auth";
-import styles from "./Users.module.css";
+import styles from "../Page.module.css";
 import { useState } from "react";
 
 function Users() {
@@ -19,7 +19,6 @@ function Users() {
   const { data: userData = [], isLoading, error } = useUsers(params);
   const createUserMutation = useCreateUser();
 
-  console.log(userData);
   const handleSubmit = (data: IUserCreateFormData) => {
     createUserMutation.mutate(data);
     setIsModalOpen(false);
