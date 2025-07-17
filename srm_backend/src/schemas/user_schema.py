@@ -65,6 +65,3 @@ class FilterParamsSchema(BaseSchema):
     sort_order: Annotated[Literal["asc", "desc"], Field(description="sort order")] = (
         "desc"
     )
-
-
-# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidHlwZSI6ImFjY2VzcyIsImV4cCI6MTc1MjQzMDI1OCwiaWF0IjoxNzUyMzQzODU4LCJqdGkiOiJkZjNjMDBmMy03OGY5LTQxOGUtOGMwZS00NmViZmQxZWRjMTgifQ.s7BJqAGirsLZge97SEEXVcoQ0-2ttJilSZt8YuId_pY
