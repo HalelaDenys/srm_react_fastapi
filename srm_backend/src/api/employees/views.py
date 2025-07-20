@@ -7,6 +7,7 @@ from schemas.employee_shemas import (
     CreateEmployeeSchema,
     UpdateEmployeeSchema,
     ReadEmployeeSchema,
+    ReadEmployeeSchemaWithPosition,
 )
 from core.dependencies.auth import check_user_is_admin, http_bearer
 
@@ -32,9 +33,9 @@ async def get_employee_by_id(
     employee_id: Annotated[int, Path(ge=1)],
     employee_service: Annotated["EmployeeService", Depends(get_employee_service)],
     is_admin: Annotated[bool, Depends(check_user_is_admin)],
-) -> ReadEmployeeSchema:
-    employee = await employee_service.get(id=employee_id)
-    return ReadEmployeeSchema(**employee.to_dict())
+) -> ReadEmployeeSchemaWithPosition:
+    emp = await employee_service.get_by_employee_id(employee_id=employee_id)
+    return emp
 
 
 @router.get("", status_code=status.HTTP_200_OK)
