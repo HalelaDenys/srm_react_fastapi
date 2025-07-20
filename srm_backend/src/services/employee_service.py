@@ -1,6 +1,8 @@
 from infrastructure import Employee, db_helper, EmployeeRepository
 from core.exceptions import NotFoundError, AlreadyExistsError
 from schemas.employee_shemas import (
+    ReadEmployeeSchemaWithPosition,
+    employee_to_read_schema,
     CreateEmployeeSchema,
     UpdateEmployeeSchema,
     ReadEmployeeSchema,
@@ -37,6 +39,12 @@ class EmployeeService(BaseService):
     async def get_all_employees(self) -> list[ReadEmployeeSchema]:
         employees = await self._employee_repository.find_all_employees()
         return [ReadEmployeeSchema(**employee.to_dict()) for employee in employees]
+
+    async def get_by_employee_id(
+        self, employee_id: int
+    ) -> ReadEmployeeSchemaWithPosition:
+        employee = await self.get(id=employee_id)
+        return employee_to_read_schema(employee)
 
 
 async def get_employee_service() -> AsyncGenerator[EmployeeService, None]:
