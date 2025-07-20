@@ -1,6 +1,11 @@
 from infrastructure import Base
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import VARCHAR, ForeignKey
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from infrastructure import Position
 
 
 class Employee(Base):
@@ -18,6 +23,11 @@ class Employee(Base):
     is_active: Mapped[bool] = mapped_column(default=True)
     is_admin: Mapped[bool] = mapped_column(default=False)
     password: Mapped[str] = mapped_column(VARCHAR(255), nullable=True)
+
+    position: Mapped["Position"] = relationship(
+        "Position",
+        back_populates="employees",
+    )
 
     def __repr__(self):
         return (
