@@ -1,10 +1,10 @@
-from infrastructure import Employee
 from schemas.user_schema import UserSchema, UpdateUserSchema
 from pydantic import Field, field_validator, EmailStr
 from schemas.base_schema import BaseSchema
 from typing import Annotated, Optional
-import re
+from infrastructure import Employee
 from datetime import datetime
+import re
 
 
 class LoginSchema(BaseSchema):
@@ -42,23 +42,20 @@ class UpdateEmployeeSchema(UpdateUserSchema):
 
 
 class ReadEmployeeSchema(UserSchema):
+    id: int
     patronymic: Optional[str] = None
     email: Optional[EmailStr | str] = None
-    position_id: Annotated[int, Field(ge=0)]
+    position_id: int
     is_admin: bool
     is_active: bool
     created_at: datetime
 
 
-class PositionReadSchema(BaseSchema):
-    id: int
-    name: str
-
-
 class ReadEmployeeSchemaWithPosition(UserSchema):
     patronymic: Optional[str] = None
     email: Optional[EmailStr | str] = None
-    position: PositionReadSchema
+    position_id: int
+    position: str
     is_admin: bool
     is_active: bool
     created_at: datetime
@@ -71,10 +68,8 @@ def employee_to_read_schema(employee: "Employee") -> ReadEmployeeSchemaWithPosit
         patronymic=employee.patronymic,
         email=employee.email,
         phone_number=employee.phone_number,
-        position=PositionReadSchema(
-            id=employee.position.id,
-            name=employee.position.name,
-        ),
+        position_id=employee.position_id,
+        position=employee.position.name,
         created_at=employee.created_at,
         is_active=employee.is_active,
         is_admin=employee.is_admin,

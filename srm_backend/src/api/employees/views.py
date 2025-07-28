@@ -1,15 +1,14 @@
-from fastapi import APIRouter, Depends, status, Path
-from core import settings
-from typing import Annotated
-
 from services.employee_service import get_employee_service, EmployeeService
+from core.dependencies.auth import check_user_is_admin, http_bearer
+from fastapi import APIRouter, Depends, status, Path
 from schemas.employee_shemas import (
+    ReadEmployeeSchemaWithPosition,
     CreateEmployeeSchema,
     UpdateEmployeeSchema,
     ReadEmployeeSchema,
-    ReadEmployeeSchemaWithPosition,
 )
-from core.dependencies.auth import check_user_is_admin, http_bearer
+from typing import Annotated
+from core import settings
 
 router = APIRouter(
     prefix=settings.api_prefix.employees,
