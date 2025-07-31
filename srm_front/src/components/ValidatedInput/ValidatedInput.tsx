@@ -19,7 +19,7 @@ function ValidatedInput({
 }: ValidatedInputProps) {
   return (
     <>
-      <label className="text-lg font-medium italic">{label}</label>
+      <label className="text-lg font-medium italic mx-1">{label}</label>
       {type === "checkbox" ? (
         <input
           id={name}
@@ -36,7 +36,8 @@ function ValidatedInput({
           type={type}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="mb-3 p-1 focus:outline-none focus:border focus:rounded"
+          className="mb-3 p-1 border border-gray-400 rounded 
+          focus:outline-none focus:border focus:border-black"
         />
       )}
 

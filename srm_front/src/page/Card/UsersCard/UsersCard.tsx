@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import BackBtn from "../../../components/BackBtn/BackBtn";
 import { formatDateString } from "../../../utils/utils";
+import styles from "../Card.module.css";
 
 function UsersCard() {
   const { id } = useParams<{ id?: string }>();
@@ -96,8 +97,7 @@ function UsersCard() {
             <button
               type="submit"
               disabled={isUpdating}
-              className="mr-2 px-4 py-2 bg-purple-600 text-white 
-      rounded hover:bg-purple-800 transition duration-300 ease-in-out disabled:opacity-50"
+              className={styles["update-btn"]}
             >
               Оновити
             </button>
@@ -105,7 +105,7 @@ function UsersCard() {
           <button
             onClick={() => setIsModalOpen(true)}
             disabled={isDeleting}
-            className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
+            className={styles["delete-btn"]}
           >
             Видалити
           </button>
