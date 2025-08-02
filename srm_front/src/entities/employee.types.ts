@@ -5,7 +5,7 @@ export interface IEmployee {
     patronymic: string | null;
     email: string | null;
     phoneNumber: string
-    position_id: number;
+    positionId: number;
     isActive: boolean;
     isAdmin: boolean;
     createdAt: string;
@@ -24,10 +24,6 @@ export interface IEmployeeRaw {
     created_at: string;
 }
 
-interface IPosition {
-  id: number;
-  name: string;
-}
 
 export interface IEmployeeWithPosition {
     id: number;
@@ -36,7 +32,8 @@ export interface IEmployeeWithPosition {
     patronymic: string | null;
     email: string | null;
     phoneNumber: string
-    position: IPosition;
+    positionId: number;
+    position: string;
     isActive: boolean;
     isAdmin: boolean;
     createdAt: string;
@@ -53,13 +50,6 @@ export interface IEmployeeCreateFormData {
     isAdmin: boolean;
 }
 
-// {
-//   "first_name": "string",
-//   "last_name": "string",
-//   "phone_number": "string",
-//   "patronymic": "string",
-//   "password": "string",
-//   "email": "user@example.com",
-//   "is_admin": true,
-//   "position_id": 0
-// }
+export interface IEmployeeFormProps {
+    onSubmit: (data: IEmployeeCreateFormData) => void
+}

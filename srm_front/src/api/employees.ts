@@ -1,5 +1,6 @@
-import type { IEmployee, IEmployeeRaw } from "../entities/employee.types";
+import type { IEmployee, IEmployeeCreateFormData, IEmployeeRaw } from "../entities/employee.types";
 import { getTokenFromLocalStorage } from "../utils/auth";
+import { cleanedFilters, transformKeysToSnakeCase } from "../utils/utils";
 import api from "./instanceAPI";
 import axios from "axios";
 
@@ -47,11 +48,10 @@ export const fetchEmployeeById = async (id: number): Promise<IEmployeeRaw> => {
 };
 
 export const createEmployee = async (
-  id: number,
-  empData: any
+  empData: Promise<IEmployeeCreateFormData>
 ): Promise<IEmployeeRaw> => {
   try {
-    const response = await api.post(`/employees/${id}`, empData, {
+    const response = await api.post("/employees", empData, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -71,7 +71,7 @@ export const createEmployee = async (
 
 export const updateEmployee = async (
   id: number,
-  empData: Partial<IEmployee>
+  empData: Promise<IEmployee>
 ): Promise<IEmployeeRaw> => {
   try {
     const response = await api.patch(`/employees/${id}`, empData, {
