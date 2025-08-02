@@ -29,6 +29,7 @@ export function transformKeysToCamelCase<T extends Record<string, any>>(
   const result: Record<string, any> = {};
 
   for (const key in obj) {
+
     const camelKey = snakeToCamel(key);
     result[camelKey] = obj[key];
   }

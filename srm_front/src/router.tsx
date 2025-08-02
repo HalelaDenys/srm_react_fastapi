@@ -11,6 +11,7 @@ import {
 import App from "./App";
 import Employees from "./page/Employees/Employees";
 import NotFound from "./page/NotFound/NotFound";
+import EmployeeCard from "./page/Card/EmpCard/EmployeeCard";
 
 
 const router = createBrowserRouter(
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
                 <Route path="users" element={<Users />} />
                 <Route path="users/:id" element={<UsersCard />} />
                 <Route path="employees" element={<Employees />} />
+                <Route path="employees/:id" element={<EmployeeCard />} />
             </Route>
             <Route path="*" element={<NotFound />} />
         </>
