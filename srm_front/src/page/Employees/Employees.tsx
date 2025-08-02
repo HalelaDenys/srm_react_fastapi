@@ -3,10 +3,20 @@ import ContentItem from "../../components/ContentItem/ContentItem";
 import styles from "../Page.module.css";
 import ModalWnd from "../../components/Modals/ModalWnd/ModalWnd";
 import { useEmployees } from "../../hooks/empHooks/useEmployees";
+import EmployeeCreateForm from "../../components/Form/EmployeeCreateForm/EmployeeCreateForm";
+import { useCreateEmployee } from "../../hooks/empHooks/useCreateEmployee";
+import type { IEmployeeCreateFormData } from "../../entities/employee.types";
 
 function Employees() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: empData = [], isLoading, error } = useEmployees();
+  const createEmpMutation= useCreateEmployee();
+
+  const handleSubmit = (data: IEmployeeCreateFormData) => {
+    console.log(data);
+    createEmpMutation.mutate(data);
+    setIsModalOpen(false);
+  };
   
   if (isLoading) return "Loading...";
 
@@ -48,6 +58,7 @@ function Employees() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title="Create new employee"
+        content={<EmployeeCreateForm  onSubmit={handleSubmit}/>}
       />
     </div>
   );
