@@ -1,5 +1,5 @@
 import { transformKeysToCamelCase } from "../utils/utils";
-import type { IPosition, IPositionRaw } from "../entities/position.types"
+import type { IPosition } from "../entities/position.types"
 import { fetchPositions } from "../api/positions";
 
 
