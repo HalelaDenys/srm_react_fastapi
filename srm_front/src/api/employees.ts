@@ -1,6 +1,5 @@
 import type { IEmployee, IEmployeeCreateFormData, IEmployeeRaw } from "../entities/employee.types";
 import { getTokenFromLocalStorage } from "../utils/auth";
-import { cleanedFilters, transformKeysToSnakeCase } from "../utils/utils";
 import api from "./instanceAPI";
 import axios from "axios";
 
