@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 interface ICustomSelect {
   label: string;
-  selectedValue: string | number;
+  selectedValue?: number;
   options: { value: string; id: number }[];
   onChange?: (value: any) => void;
 }
@@ -16,8 +16,8 @@ function CustomSelect({
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const selected =
-    options.find((opt) => opt.value === selectedValue) || options[0];
-
+    options.find((opt) => opt.id === selectedValue) || options[0];
+  
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (ref.current && !ref.current.contains(event.target as Node)) {
