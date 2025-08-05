@@ -53,3 +53,9 @@ export interface IEmployeeCreateFormData {
 export interface IEmployeeFormProps {
     onSubmit: (data: IEmployeeCreateFormData) => void
 }
+
+
+export interface IUpdateEmployeeInput {
+    id: number;
+    data: Partial<IEmployee>;
+}

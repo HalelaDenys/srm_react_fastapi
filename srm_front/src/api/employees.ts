@@ -47,7 +47,7 @@ export const fetchEmployeeById = async (id: number): Promise<IEmployeeRaw> => {
 };
 
 export const createEmployee = async (
-  empData: Promise<IEmployeeCreateFormData>
+  empData: Partial<IEmployeeCreateFormData>
 ): Promise<IEmployeeRaw> => {
   try {
     const response = await api.post("/employees", empData, {
@@ -70,7 +70,7 @@ export const createEmployee = async (
 
 export const updateEmployee = async (
   id: number,
-  empData: Promise<IEmployee>
+  empData: Partial<IEmployee>
 ): Promise<IEmployeeRaw> => {
   try {
     const response = await api.patch(`/employees/${id}`, empData, {

@@ -9,6 +9,7 @@ import { usePositions } from "../../../hooks/positionHooks/usePositions";
 import useDeleteEmployee from "../../../hooks/empHooks/useDeleteEmployee";
 import ConfirmDeleteModal from "../../../components/Modals/ConfirmDeleteModal/ConfirmDeleteModal";
 import { useState } from "react";
+import useUpdateEmployeeForm from "../../../hooks/empHooks/useUpdateEmpForm";
 
 function EmployeeCard() {
   const { id } = useParams<{ id?: string }>();
@@ -25,7 +26,11 @@ function EmployeeCard() {
   } = useEmployeeForm(userId);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: positionsData = [] } = usePositions();
-  const { handleDelete, isDeleting } = useDeleteEmployee(() => {
+  const { handleSubmit, isUpdating } = useUpdateEmployeeForm(
+    empData!,
+    empForm!,
+    setValidationErrors
+  ); const { handleDelete, isDeleting } = useDeleteEmployee(() => {
     navigate("/employees");
   })
 
@@ -35,11 +40,7 @@ function EmployeeCard() {
 
   const isChanged = JSON.stringify(empData) !== JSON.stringify(empForm);
   const formattedDate = formatDateString(empData!.createdAt!);
-  console.log(empForm);
-  const handleSubmit = (e: React.FormEvent) => {
-    // e.preventDefault();
-    console.log("hello");
-  };
+
 
   return (
     <div>
@@ -163,14 +164,16 @@ function EmployeeCard() {
         </div>
         <div className="flex justify-end mt-2">
           {isChanged && (
-            <button type="submit"
+             <button
+              type="submit"
+              disabled={isUpdating}
               className={styles["update-btn"]}
             >
               Оновити
             </button>
           )}
           <button
-          type="button"
+            type="button"
             onClick={() => setIsModalOpen(true)}
             disabled={isDeleting}
             className={styles["delete-btn"]}

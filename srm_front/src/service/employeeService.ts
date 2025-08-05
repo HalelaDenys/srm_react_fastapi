@@ -1,3 +1,5 @@
+import type { IEmployee, IEmployeeWithPosition, IEmployeeCreateFormData } from "../entities/employee.types";
+import { cleanedFilters, transformKeysToCamelCase, transformKeysToSnakeCase } from "../utils/utils";
 import {
   fetchEmployees,
   fetchEmployeeById,
@@ -5,8 +7,6 @@ import {
   deleteEmployee,
   createEmployee,
 } from "../api/employees";
-import type { IEmployee, IEmployeeWithPosition, IEmployeeRaw, IEmployeeCreateFormData } from "../entities/employee.types";
-import { cleanedFilters, transformKeysToCamelCase, transformKeysToSnakeCase } from "../utils/utils";
 
 export const getEmployeesService = async (): Promise<IEmployee[]> => {
   const employees = await fetchEmployees();
@@ -22,14 +22,14 @@ export const getEmployeeByIdService = async (
 
 export const updateEmployeeService = async (
   id: number,
-  empData: Promise<IEmployee>
+  empData: Partial<IEmployee>
 ) => {
   const employee = await updateEmployee(id, empData);
   return transformKeysToCamelCase(employee) as IEmployee;
 };
 
 export const createEmployeeService = async (empData: IEmployeeCreateFormData) => {
-  const data = transformKeysToSnakeCase(cleanedFilters(empData)) as Promise<IEmployeeCreateFormData>;
+  const data = transformKeysToSnakeCase(cleanedFilters(empData)) as Partial<IEmployeeCreateFormData>;
   const employee = await createEmployee(data);
   return transformKeysToCamelCase(employee) as IEmployee;
 };
