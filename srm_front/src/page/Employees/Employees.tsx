@@ -1,16 +1,25 @@
-import { useState } from "react";
-import ContentItem from "../../components/ContentItem/ContentItem";
-import styles from "../Page.module.css";
-import ModalWnd from "../../components/Modals/ModalWnd/ModalWnd";
-import { useEmployees } from "../../hooks/empHooks/useEmployees";
 import EmployeeCreateForm from "../../components/Form/EmployeeCreateForm/EmployeeCreateForm";
-import { useCreateEmployee } from "../../hooks/empHooks/useCreateEmployee";
 import type { IEmployeeCreateFormData } from "../../entities/employee.types";
+import { useCreateEmployee } from "../../hooks/empHooks/useCreateEmployee";
+import ContentItem from "../../components/ContentItem/ContentItem";
+import { useUserFilterStore } from "../../store/userFilter.store";
+import { useEmployees } from "../../hooks/empHooks/useEmployees";
+import ModalWnd from "../../components/Modals/ModalWnd/ModalWnd";
+import CustomFilter from "../../components/Filters/CustomFilter";
+import { currentUserId } from "../../utils/auth";
+import styles from "../Page.module.css";
+import { useState } from "react";
 
 function Employees() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: empData = [], isLoading, error } = useEmployees();
   const createEmpMutation= useCreateEmployee();
+
+  const userId = currentUserId();
+  const filters = useUserFilterStore((state) => state.getUserFilters(userId));
+  const setUserFilters = useUserFilterStore((state) => state.setUserFilters);
+  
+  console.log(filters);
 
   const handleSubmit = (data: IEmployeeCreateFormData) => {
     console.log(data);
@@ -38,6 +47,10 @@ function Employees() {
 
   return (
     <div>
+    <CustomFilter
+      filters={filters}
+      setFilters={(values) => setUserFilters(userId, values)}
+    />
       <div className="flex justify-center">
         <button className={styles["btn"]} onClick={() => setIsModalOpen(true)}>
           Create new employee

@@ -1,14 +1,13 @@
 import { create } from "zustand";
 import type { IFilterValues } from "../entities/filter.types";
 
-
-interface IUserFilterValues extends IFilterValues {};
+interface IEmpFilterValues extends IFilterValues {}
 
 interface IUserFilterStore {
-  filters: Record<string, IUserFilterValues>;
-  setUserFilters: (userId: number, values: Partial<IUserFilterValues>) => void;
-  getUserFilters: (userId: number) => IUserFilterValues;
-  resetUserFilters: (userId: number) => void;
+  filters: Record<string, IEmpFilterValues>;
+  setEmpFilters: (userId: number, values: Partial<IEmpFilterValues>) => void;
+  getEmpFilters: (userId: number) => IEmpFilterValues;
+  resetEmpFilters: (userId: number) => void;
 }
 
 const defaultFilter: IFilterValues = {
@@ -20,10 +19,10 @@ const defaultFilter: IFilterValues = {
   dateTo: "",
 };
 
-export const useUserFilterStore = create<IUserFilterStore>((set, get) => ({
+export const useEmpFilterStore = create<IUserFilterStore>((set, get) => ({
   filters: {},
 
-  setUserFilters: (userId, values) => {
+  setEmpFilters: (userId, values) => {
     const current = get().filters[userId] || defaultFilter;
     set({
       filters: {
@@ -35,11 +34,12 @@ export const useUserFilterStore = create<IUserFilterStore>((set, get) => ({
       },
     });
   },
-  getUserFilters: (userId) => {
+
+  getEmpFilters: (userId) => {
     return get().filters[userId] || defaultFilter;
   },
 
-  resetUserFilters: (userId) => {
+  resetEmpFilters: (userId) => {
     set({
       filters: {
         ...get().filters,

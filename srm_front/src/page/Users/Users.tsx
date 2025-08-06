@@ -1,9 +1,9 @@
 import type { IUserCreateFormData, UserQueryParams } from "../../entities/user.types";
-import UserFilter from "../../components/Filters/UserFilter/UserFilter";
 import { useCreateUser } from "../../hooks/userHooks/useCreateUser";
 import ContentItem from "../../components/ContentItem/ContentItem";
 import { useUserFilterStore } from "../../store/userFilter.store";
 import ModalWnd from "../../components/Modals/ModalWnd/ModalWnd";
+import CustomFilter from "../../components/Filters/CustomFilter";
 import UserForm from "../../components/Form/UserForm/UserForm";
 import { transformKeysToSnakeCase } from "../../utils/utils";
 import { useUsers } from "../../hooks/userHooks/useUsers";
@@ -18,6 +18,8 @@ function Users() {
   const params = transformKeysToSnakeCase(filters) as UserQueryParams;
   const { data: userData = [], isLoading, error } = useUsers(params);
   const createUserMutation = useCreateUser();
+
+  const setUserFilters = useUserFilterStore((state) => state.setUserFilters);
 
   const handleSubmit = (data: IUserCreateFormData) => {
     createUserMutation.mutate(data);
@@ -44,7 +46,8 @@ function Users() {
 
   return (
     <div>
-      <UserFilter />
+      < CustomFilter filters={filters} setFilters={(values) => setUserFilters(userId, values)} />
+      {/* <UserFilter /> */}
       <div className="flex justify-center">
         <button className={styles["btn"]} onClick={() => setIsModalOpen(true)}>
           Create New User
