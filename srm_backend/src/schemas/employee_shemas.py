@@ -1,9 +1,9 @@
 from schemas.user_schema import UserSchema, UpdateUserSchema
 from pydantic import Field, field_validator, EmailStr
 from schemas.base_schema import BaseSchema
-from typing import Annotated, Optional
+from typing import Annotated, Optional, Literal
 from infrastructure import Employee
-from datetime import datetime
+from datetime import datetime, date
 import re
 
 
@@ -27,7 +27,7 @@ class TokenInfo(BaseSchema):
 class CreateEmployeeSchema(UserSchema):
     patronymic: Annotated[Optional[str], Field(min_length=1, max_length=50)] = None
     password: Annotated[str, Field(min_length=5, max_length=50)]
-    email: EmailStr
+    email: Optional[EmailStr] = None
     is_admin: bool
     position_id: Annotated[int, Field(ge=0)]
 
@@ -52,6 +52,7 @@ class ReadEmployeeSchema(UserSchema):
 
 
 class ReadEmployeeSchemaWithPosition(UserSchema):
+    id: int
     patronymic: Optional[str] = None
     email: Optional[EmailStr | str] = None
     position_id: int
@@ -63,6 +64,7 @@ class ReadEmployeeSchemaWithPosition(UserSchema):
 
 def employee_to_read_schema(employee: "Employee") -> ReadEmployeeSchemaWithPosition:
     return ReadEmployeeSchemaWithPosition(
+        id=employee.id,
         first_name=employee.first_name,
         last_name=employee.last_name,
         patronymic=employee.patronymic,
@@ -73,4 +75,28 @@ def employee_to_read_schema(employee: "Employee") -> ReadEmployeeSchemaWithPosit
         created_at=employee.created_at,
         is_active=employee.is_active,
         is_admin=employee.is_admin,
+    )
+
+
+class EmpFilterParamsSchema(BaseSchema):
+    status: Literal["is_active", "is_inactive", "all"] = "all"
+
+    search: Annotated[
+        Optional[str],
+        Field(
+            min_length=3,
+            max_length=50,
+            description="Search by keyword",
+        ),
+    ] = None
+
+    date_from: Annotated[Optional[date], Field(description="start date")] = None
+    date_to: Annotated[Optional[date], Field(description="end date")] = None
+
+    sort_by: Annotated[
+        Literal["created_at", "first_name", "last_name", "phone_number", "position_id"],
+        Field(description="sort by"),
+    ] = "created_at"
+    sort_order: Annotated[Literal["asc", "desc"], Field(description="sort order")] = (
+        "desc"
     )

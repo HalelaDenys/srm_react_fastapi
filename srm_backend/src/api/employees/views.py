@@ -1,8 +1,9 @@
 from services.employee_service import get_employee_service, EmployeeService
 from core.dependencies.auth import check_user_is_admin, http_bearer
-from fastapi import APIRouter, Depends, status, Path
+from fastapi import APIRouter, Depends, status, Path, Query
 from schemas.employee_shemas import (
     ReadEmployeeSchemaWithPosition,
+    EmpFilterParamsSchema,
     CreateEmployeeSchema,
     UpdateEmployeeSchema,
     ReadEmployeeSchema,
@@ -41,8 +42,9 @@ async def get_employee_by_id(
 async def get_employees(
     employee_service: Annotated["EmployeeService", Depends(get_employee_service)],
     is_admin: Annotated[bool, Depends(check_user_is_admin)],
+    filter_params: Annotated[EmpFilterParamsSchema, Query()],
 ) -> list[ReadEmployeeSchema]:
-    return await employee_service.get_all_employees()
+    return await employee_service.get_all_employees(filter_params=filter_params)
 
 
 @router.patch("/{employee_id}", status_code=status.HTTP_200_OK)

@@ -3,6 +3,7 @@ from core.exceptions import NotFoundError, AlreadyExistsError
 from schemas.employee_shemas import (
     ReadEmployeeSchemaWithPosition,
     employee_to_read_schema,
+    EmpFilterParamsSchema,
     CreateEmployeeSchema,
     UpdateEmployeeSchema,
     ReadEmployeeSchema,
@@ -36,8 +37,17 @@ class EmployeeService(BaseService):
             raise NotFoundError("Employee not found")
         return employee
 
-    async def get_all_employees(self) -> list[ReadEmployeeSchema]:
-        employees = await self._employee_repository.find_all_employees()
+    async def get_all_employees(
+        self, filter_params: EmpFilterParamsSchema
+    ) -> list[ReadEmployeeSchema]:
+        employees = await self._employee_repository.find_all_employees(
+            sort_by=filter_params.sort_by,
+            sort_order=filter_params.sort_order,
+            status=filter_params.status,
+            search=filter_params.search,
+            date_from=filter_params.date_from,
+            date_to=filter_params.date_to,
+        )
         return [ReadEmployeeSchema(**employee.to_dict()) for employee in employees]
 
     async def get_by_employee_id(
