@@ -6,7 +6,7 @@ import styles from "./Filter.module.css";
 interface IFilterValuesProps {
     filters: IFilterValues
     setFilters: (values: Partial<IFilterValues>) => void;
-    sortOptions?: { label: string; value: IFilterValues["sortBy"] }[];
+    sortOptions?: { label: string; value: string }[];
     children?: React.ReactNode;
 };
 

@@ -8,8 +8,10 @@ import {
   createEmployee,
 } from "../api/employees";
 
-export const getEmployeesService = async (): Promise<IEmployee[]> => {
-  const employees = await fetchEmployees();
+export const getEmployeesService = async (
+    query: Record<string, string>
+): Promise<IEmployee[]> => {
+  const employees = await fetchEmployees(query);
   return employees.map(transformKeysToCamelCase) as IEmployee[];
 };
 

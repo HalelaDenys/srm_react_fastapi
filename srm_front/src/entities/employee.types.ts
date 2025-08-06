@@ -59,3 +59,12 @@ export interface IUpdateEmployeeInput {
     id: number;
     data: Partial<IEmployee>;
 }
+
+export interface EmpQueryParams {
+  status: "is_active" | "is_inactive" | "all";
+  search?: string;
+  date_from?: string;
+  date_to?: string;
+  sort_by: "created_at" | "first_name" | "last_name" | "phone_number" | "position";
+  sort_order: "asc" | "desc";
+}

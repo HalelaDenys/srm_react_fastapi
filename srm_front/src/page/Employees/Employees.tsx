@@ -1,5 +1,5 @@
 import EmployeeCreateForm from "../../components/Form/EmployeeCreateForm/EmployeeCreateForm";
-import type { IEmployeeCreateFormData } from "../../entities/employee.types";
+import type { EmpQueryParams, IEmployeeCreateFormData } from "../../entities/employee.types";
 import { useCreateEmployee } from "../../hooks/empHooks/useCreateEmployee";
 import ContentItem from "../../components/ContentItem/ContentItem";
 import { useUserFilterStore } from "../../store/userFilter.store";
@@ -9,17 +9,18 @@ import CustomFilter from "../../components/Filters/CustomFilter";
 import { currentUserId } from "../../utils/auth";
 import styles from "../Page.module.css";
 import { useState } from "react";
+import { transformKeysToSnakeCase } from "../../utils/utils";
 
 function Employees() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { data: empData = [], isLoading, error } = useEmployees();
-  const createEmpMutation= useCreateEmployee();
-
   const userId = currentUserId();
   const filters = useUserFilterStore((state) => state.getUserFilters(userId));
   const setUserFilters = useUserFilterStore((state) => state.setUserFilters);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const params = transformKeysToSnakeCase(filters) as EmpQueryParams;
+  const { data: empData = [], isLoading, error } = useEmployees(params);
+  const createEmpMutation= useCreateEmployee();
+
   
-  console.log(filters);
 
   const handleSubmit = (data: IEmployeeCreateFormData) => {
     console.log(data);
@@ -50,6 +51,13 @@ function Employees() {
     <CustomFilter
       filters={filters}
       setFilters={(values) => setUserFilters(userId, values)}
+      sortOptions={[
+        { label: "Дата створення", value: "created_at" },
+        { label: "Ім'я", value: "first_name" },
+        { label: "Прізвище", value: "last_name" },
+        { label: "Номер телефону", value: "phone_number" },
+        { label: "Посада", value: "position_id" },
+      ]}
     />
       <div className="flex justify-center">
         <button className={styles["btn"]} onClick={() => setIsModalOpen(true)}>
