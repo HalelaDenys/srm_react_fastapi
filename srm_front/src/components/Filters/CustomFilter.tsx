@@ -1,36 +1,49 @@
-import { useUserFilterStore } from "../../../store/userFilter.store";
-import type { FilterUserType } from "../../../entities/filter.types";
+import type { FilterType, IFilterValues } from "../../entities/filter.types";
 import { useEffect, useRef, useState } from "react";
-import { currentUserId } from "../../../utils/auth";
-import styles from "../Filter.module.css";
+import styles from "./Filter.module.css";
 
 
-function UserFilter() {
-    const userId = currentUserId();
+interface IFilterValuesProps {
+    filters: IFilterValues
+    setFilters: (values: Partial<IFilterValues>) => void;
+    sortOptions?: { label: string; value: IFilterValues["sortBy"] }[];
+    children?: React.ReactNode;
+};
+
+
+
+export default function CustomFilter({
+    filters,
+    setFilters,
+    sortOptions = [
+        { label: "Дата створення", value: "created_at" },
+        { label: "Ім'я", value: "first_name" },
+        { label: "Прізвище", value: "last_name" },
+    ],
+}: IFilterValuesProps) {
     const ref = useRef<HTMLDivElement>(null);
-    const filters = useUserFilterStore((state) => state.getUserFilters(userId));
-    const setUserFilters = useUserFilterStore((state) => state.setUserFilters);
-    const [open, setOpen] = useState<FilterUserType | null>(null);
+    const [open, setOpen] = useState<FilterType | null>(null);
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
-            setUserFilters(userId, { search: "" });
+            setFilters({ search: event.currentTarget.value });
         }
     };
 
-    const handleToggle = (key: FilterUserType) => {
+    const handleToggle = (key: FilterType) => {
         setOpen((prev) => (prev === key ? null : key));
     }
 
     const handleSortOrderChange = (value: string) => {
         if (value === "asc" || value === "desc") {
-            setUserFilters(userId, { sortOrder: value });
+            setFilters({ sortOrder: value });
         }
     };
 
     const handleSortByChange = (value: string) => {
-        if (value === "created_at" || value === "first_name" || value === "last_name") {
-            setUserFilters(userId, { sortBy: value });
+        const validOption = sortOptions.find((option) => option.value === value);
+        if (validOption) {
+            setFilters({ sortBy: value as IFilterValues["sortBy"] });
         }
     };
 
@@ -47,7 +60,6 @@ function UserFilter() {
         };
     }, [ref]);
 
-
     return (
         <div className={styles["filter-container"]}>
             <input
@@ -56,7 +68,7 @@ function UserFilter() {
                 placeholder="Введіть щось..."
                 value={filters.search}
                 onChange={(e) =>
-                    setUserFilters(userId, { search: e.target.value })
+                    setFilters({ search: e.target.value })
                 }
                 onKeyDown={handleKeyDown}
             />
@@ -73,7 +85,7 @@ function UserFilter() {
                                 <input
                                     type="checkbox"
                                     checked={filters.status.includes("is_active")}
-                                    onChange={() => setUserFilters(userId, { status: "is_active" })}
+                                    onChange={() => setFilters({ status: "is_active" })}
                                 />
                                 Активний
                             </label>
@@ -81,7 +93,7 @@ function UserFilter() {
                                 <input
                                     type="checkbox"
                                     checked={filters.status.includes("is_inactive")}
-                                    onChange={() => setUserFilters(userId, { status: "is_inactive" })}
+                                    onChange={() => setFilters({ status: "is_inactive" })}
                                 />
                                 Не активний
                             </label>
@@ -100,13 +112,13 @@ function UserFilter() {
                                 type="date"
                                 className="border p-1 rounded mb-2 w-full"
                                 value={filters.dateFrom}
-                                onChange={(e) => setUserFilters(userId, { dateFrom: e.target.value })}
+                                onChange={(e) => setFilters({ dateFrom: e.target.value })}
                             />
                             <input
                                 type="date"
                                 className="border p-1 rounded w-full"
                                 value={filters.dateTo}
-                                onChange={(e) => setUserFilters(userId, { dateTo: e.target.value })}
+                                onChange={(e) => setFilters({ dateTo: e.target.value })}
                             />
                         </div>
                     )}
@@ -124,9 +136,11 @@ function UserFilter() {
                                 value={filters.sortBy}
                                 onChange={(e) => handleSortByChange(e.target.value)}
                             >
-                                <option value="created_at">Дата створення</option>
-                                <option value="first_name">Ім'я</option>
-                                <option value="last_name">Прізвище</option>
+                                {sortOptions.map((option) => (
+                                    <option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                     )}
@@ -151,11 +165,7 @@ function UserFilter() {
                     )}
                 </div>
             </div>
-
             <hr className="mb-4" />
         </div>
-    );
-};
-
-
-export default UserFilter
+    )
+}
