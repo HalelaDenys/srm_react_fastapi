@@ -41,7 +41,11 @@ function CustomSelect({
         >
           <div className="flex justify-between items-center">
             {selected?.value}
-            <img src="/down_icon.png" alt="down icon" className="w-4 h-4"/>
+                {
+                  isOpen
+                    ? <img src="/arrow-up.svg" alt="up icon" className="w-4 h-4 inline ml-2" />
+                    : <img src="/arrow-down.svg" alt="down icon" className="w-4 h-4 inline ml-2" />
+                }
           </div>
         </div>
         {isOpen && (
