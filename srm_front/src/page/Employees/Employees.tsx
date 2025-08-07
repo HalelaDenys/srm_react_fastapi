@@ -23,7 +23,6 @@ function Employees() {
   
 
   const handleSubmit = (data: IEmployeeCreateFormData) => {
-    console.log(data);
     createEmpMutation.mutate(data);
     setIsModalOpen(false);
   };
@@ -32,7 +31,7 @@ function Employees() {
 
   if (error) return "An error has occurred: " + error.message;
 
-  if (empData.length === 0) {
+  if (empData.length === 0  && filters.search.length === 0) {
     return (
       <div className="flex flex-col gap-2 mt-1">
         <div className="text-center">No users found.</div>
