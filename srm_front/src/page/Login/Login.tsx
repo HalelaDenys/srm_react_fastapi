@@ -7,6 +7,7 @@ function Login() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -38,14 +39,27 @@ function Login() {
             onChange={(e) => setPhoneNumber(e.target.value)}
             required
           />
-          <input
-            type="password"
-            className={styles["input"]}
-            placeholder="Пароль"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="relative w-full mb-3">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              className={`!mb-0 ${styles["input"]}`}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2"
+            >
+              <img
+                src={showPassword ? "/eye-slash.svg" : "/eye.svg"}
+                alt="toggle password visibility"
+                className="w-5 h-5"
+              />
+            </button>
+          </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <button type="submit" className={styles["btn"]}>
             Увійти
