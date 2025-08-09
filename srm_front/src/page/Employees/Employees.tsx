@@ -10,6 +10,7 @@ import { currentUserId } from "../../utils/auth";
 import styles from "../Page.module.css";
 import { useState } from "react";
 import { transformKeysToSnakeCase } from "../../utils/utils";
+import ReloadBtn from "../../components/ReloadBtn/ReloadBtn";
 
 function Employees() {
   const userId = currentUserId();
@@ -32,17 +33,10 @@ function Employees() {
   if (error) return "An error has occurred: " + error.message;
 
   if (empData.length === 0  && filters.search.length === 0) {
-    return (
-      <div className="flex flex-col gap-2 mt-1">
-        <div className="text-center">No users found.</div>
-        <button
-          onClick={() => window.location.reload()}
-          className={styles["btn"]}
-        >
-          Update window
-        </button>
-      </div>
-    );
+        return (
+            <ReloadBtn 
+            title="Employees found."/>
+        )
   }
 
   return (

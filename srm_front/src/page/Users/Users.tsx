@@ -10,6 +10,7 @@ import { useUsers } from "../../hooks/userHooks/useUsers";
 import { currentUserId } from "../../utils/auth";
 import styles from "../Page.module.css";
 import { useState } from "react";
+import ReloadBtn from "../../components/ReloadBtn/ReloadBtn";
 
 function Users() {
   const userId = currentUserId();
@@ -32,16 +33,11 @@ function Users() {
 
   if (userData.length === 0 && filters.search.length === 0) {
     return (
-      <div className="flex flex-col gap-2 mt-1">
-        <div className="text-center">No users found.</div>
-        <button
-          onClick={() => window.location.reload()}
-          className={styles["btn"]}
-        >
-          Update window
-        </button>
-      </div>
-    );
+        <ReloadBtn
+            title="No users found."
+            titleBtn="Back"
+        />
+    );    
   }
 
   return (
