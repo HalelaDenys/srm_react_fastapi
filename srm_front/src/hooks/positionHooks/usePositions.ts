@@ -5,7 +5,7 @@ import { getPositionsService } from "../../service/positionService";
 
 export const usePositions = () => {
     return useQuery<IPosition[]>({
-        queryKey: ["potions"],
+        queryKey: ["positions"],
         queryFn: () => getPositionsService(),
         staleTime: 3600000,
         refetchOnWindowFocus: false,
