@@ -1,17 +1,17 @@
-from core.authentication import get_auth_user_from_token_of_type
 from services.employee_service import get_employee_service, EmployeeService
-from fastapi import Depends, Form
+from core.authentication import get_auth_user_from_token_of_type
 from schemas.employee_shemas import LoginSchema
+from fastapi import Depends, Form
 from infrastructure import Employee
+from typing import Annotated
 from core import (
+    FORBIDDEN_EXC_NOT_ENOUGH_RIGHTS,
     UNAUTHORIZED_EXC_INCORRECT,
     FORBIDDEN_EXC_INACTIVE,
-    Security,
     ACCESS_TOKEN,
     REFRESH_TOKEN,
-    FORBIDDEN_EXC_NOT_ENOUGH_RIGHTS,
+    Security,
 )
-from typing import Annotated
 
 
 async def authenticate_user(

@@ -1,12 +1,11 @@
-from typing import Annotated
-
-from fastapi import Depends, HTTPException
+from services.employee_service import EmployeeService, get_employee_service
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from core import Security, UNAUTHORIZED_EXC_INVALID_TOKEN
+from fastapi import Depends, HTTPException
+from infrastructure import Employee
+from typing import Annotated
 from jose import JWTError
 
-from core import Security, UNAUTHORIZED_EXC_INVALID_TOKEN
-from infrastructure import Employee
-from services.employee_service import EmployeeService, get_employee_service
 
 http_bearer = HTTPBearer(auto_error=False)
 
@@ -51,7 +50,7 @@ def get_auth_user_from_token_of_type(token_type: str):
     async def get_auth_user_from_token(
         employee_service: Annotated["EmployeeService", Depends(get_employee_service)],
         payload: dict = Depends(get_current_token_payload),
-    ) -> Employee:
+    ) -> "Employee":
         validate_token(payload, token_type)
         return await get_user_by_token_sub(payload, employee_service)
 
