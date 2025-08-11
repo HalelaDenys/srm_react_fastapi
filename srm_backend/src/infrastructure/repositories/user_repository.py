@@ -1,3 +1,4 @@
+from infrastructure.query_filters import query_filters
 from infrastructure.repositories.sqlalchemy_repository import SQLAlchemyRepository
 from core.utils.datetime_utils import make_utc_datetime
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -11,7 +12,7 @@ class UserRepository(SQLAlchemyRepository[User]):
     def __init__(self, session: AsyncSession):
         super().__init__(User, session)
 
-    async def find_all_users(
+    async def find_all(
         self,
         sort_order: str,
         sort_by: str,
@@ -26,29 +27,14 @@ class UserRepository(SQLAlchemyRepository[User]):
             asc(sort_column) if sort_order == "asc" else desc(sort_column)
         )
 
-        # Filtering by status
-        if status == "is_active":
-            stmt = stmt.where(self._model.is_active == True)
-        elif status == "is_inactive":
-            stmt = stmt.where(self._model.is_active == False)
-
-        # Filtering by search
-        if search:
-            stmt = stmt.where(
-                or_(
-                    self._model.first_name.ilike(f"%{search}%"),
-                    self._model.last_name.ilike(f"%{search}%"),
-                )
-            )
-
-        # Filtering by creation date
-        if date_from:
-            date_from_dt = make_utc_datetime(date_from, end_of_day=True)
-            stmt = stmt.where(self._model.created_at >= date_from_dt)
-
-        if date_to:
-            date_to_dt = make_utc_datetime(date_to, end_of_day=True)
-            stmt = stmt.where(self._model.created_at <= date_to_dt)
+        stmt = query_filters(
+            stmt=stmt,
+            model=self._model,
+            status=status,
+            search=search,
+            date_from=date_from,
+            date_to=date_to,
+        )
 
         result = await self._session.execute(stmt)
         return result.scalars().all()

@@ -40,7 +40,7 @@ class EmployeeService(BaseService):
     async def get_all_employees(
         self, filter_params: EmpFilterParamsSchema
     ) -> list[ReadEmployeeSchema]:
-        employees = await self._employee_repository.find_all_employees(
+        employees = await self._employee_repository.find_all(
             sort_by=filter_params.sort_by,
             sort_order=filter_params.sort_order,
             status=filter_params.status,

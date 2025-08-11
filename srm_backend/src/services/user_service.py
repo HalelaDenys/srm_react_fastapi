@@ -36,7 +36,7 @@ class UserService(BaseService):
     async def get_all_users(
         self, filter_params: FilterParamsSchema
     ) -> list[ReadUserSchema]:
-        users = await self._user_repository.find_all_users(
+        users = await self._user_repository.find_all(
             sort_by=filter_params.sort_by,
             sort_order=filter_params.sort_order,
             status=filter_params.status,

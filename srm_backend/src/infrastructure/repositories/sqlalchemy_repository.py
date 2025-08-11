@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic, Type, Union
+from typing import TypeVar, Generic, Type, Union, Sequence
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete, update
 from pydantic import BaseModel
@@ -47,3 +47,7 @@ class SQLAlchemyRepository(Generic[ModelType]):
     async def delete(self, **filters) -> None:
         await self._session.execute(delete(self._model).filter_by(**filters))
         await self._session.flush()
+
+    async def find_all(self, **kwargs) -> Sequence[ModelType]:
+        res = await self._session.execute(select(self._model).order_by(self._model.id))
+        return res.scalars().all()
