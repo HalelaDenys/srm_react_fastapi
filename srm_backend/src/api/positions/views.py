@@ -1,6 +1,6 @@
 from schemas.position_shemas import ReadPositionSchema, CreatePositionSchema
 from services.positiion_service import get_position_service, PositionService
-from core.dependencies.auth import check_user_is_admin
+from core.dependencies.authorization import check_user_is_admin
 from fastapi import APIRouter, Depends, status, Path
 from typing import Annotated
 from core import settings

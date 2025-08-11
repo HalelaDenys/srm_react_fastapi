@@ -1,7 +1,10 @@
 from fastapi import Depends, APIRouter, status
 from typing import Annotated
 from core import settings, Security
-from core.dependencies.auth import get_current_auth_user_for_refresh, authenticate_user
+from core.dependencies.authorization import (
+    get_current_auth_user_for_refresh,
+    authenticate_user,
+)
 from infrastructure import Employee
 from schemas.employee_shemas import TokenInfo
 

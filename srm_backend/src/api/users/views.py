@@ -6,7 +6,7 @@ from schemas.user_schema import (
 )
 from services.user_service import get_user_service, UserService
 from fastapi import Depends, APIRouter, status, Path, Query
-from core.dependencies.auth import check_user_is_admin
+from core.dependencies.authorization import check_user_is_admin
 from core.config import settings
 from typing import Annotated
 

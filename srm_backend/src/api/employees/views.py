@@ -1,5 +1,6 @@
 from services.employee_service import get_employee_service, EmployeeService
-from core.dependencies.auth import check_user_is_admin, http_bearer
+from core.dependencies.authorization import check_user_is_admin
+from core.authentication import http_bearer
 from fastapi import APIRouter, Depends, status, Path, Query
 from schemas.employee_shemas import (
     ReadEmployeeSchemaWithPosition,
