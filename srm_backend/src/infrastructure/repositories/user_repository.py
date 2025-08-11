@@ -1,8 +1,7 @@
-from infrastructure.query_filters import query_filters
+from core.utils.query_filters import query_filters
 from infrastructure.repositories.sqlalchemy_repository import SQLAlchemyRepository
-from core.utils.datetime_utils import make_utc_datetime
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, desc, asc, or_
+from sqlalchemy import select, desc, asc
 from typing import Sequence, Optional
 from infrastructure import User
 from datetime import date

@@ -33,9 +33,7 @@ class UserService(BaseService):
             raise NotFoundError("User not found")
         return user
 
-    async def get_all_users(
-        self, filter_params: FilterParamsSchema
-    ) -> list[ReadUserSchema]:
+    async def get_all(self, filter_params: FilterParamsSchema) -> list[ReadUserSchema]:
         users = await self._user_repository.find_all(
             sort_by=filter_params.sort_by,
             sort_order=filter_params.sort_order,

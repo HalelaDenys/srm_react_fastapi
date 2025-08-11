@@ -45,7 +45,7 @@ async def get_employees(
     is_admin: Annotated[bool, Depends(check_user_is_admin)],
     filter_params: Annotated[EmpFilterParamsSchema, Query()],
 ) -> list[ReadEmployeeSchema]:
-    return await employee_service.get_all_employees(filter_params=filter_params)
+    return await employee_service.get_all(filter_params=filter_params)
 
 
 @router.patch("/{employee_id}", status_code=status.HTTP_200_OK)

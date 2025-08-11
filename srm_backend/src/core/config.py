@@ -13,6 +13,7 @@ class APIPrefix(BaseModel):
     auth: str = "/auth"
     employees: str = "/employees"
     positions: str = "/positions"
+    categories: str = "/categories"
 
 
 class DBConfig(BaseModel):

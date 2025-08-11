@@ -1,13 +1,11 @@
-from datetime import date
-
-from core.utils.datetime_utils import make_utc_datetime
-from infrastructure.query_filters import query_filters
 from infrastructure.repositories.sqlalchemy_repository import SQLAlchemyRepository
 from infrastructure.db.models.employee import Employee
+from core.utils.query_filters import query_filters
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select, asc, desc
 from sqlalchemy.orm import joinedload
-from sqlalchemy import select, asc, desc, or_
 from typing import Sequence, Optional
+from datetime import date
 
 
 class EmployeeRepository(SQLAlchemyRepository[Employee]):

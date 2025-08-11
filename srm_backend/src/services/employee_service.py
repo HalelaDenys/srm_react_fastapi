@@ -37,7 +37,7 @@ class EmployeeService(BaseService):
             raise NotFoundError("Employee not found")
         return employee
 
-    async def get_all_employees(
+    async def get_all(
         self, filter_params: EmpFilterParamsSchema
     ) -> list[ReadEmployeeSchema]:
         employees = await self._employee_repository.find_all(

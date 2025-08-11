@@ -2,7 +2,7 @@ from datetime import date
 from typing import Optional
 
 from core.utils.datetime_utils import make_utc_datetime
-from sqlalchemy import select, desc, asc, or_
+from sqlalchemy import or_
 from sqlalchemy.sql import Select
 
 

@@ -8,6 +8,7 @@ __all__ = [
     "UserRepository",
     "EmployeeRepository",
     "PositionRepository",
+    "CategoryRepository",
 ]
 
 from infrastructure.db.db_helper import db_helper
@@ -19,3 +20,4 @@ from infrastructure.db.models.category import Category
 from infrastructure.repositories.user_repository import UserRepository
 from infrastructure.repositories.employee_repository import EmployeeRepository
 from infrastructure.repositories.position_repository import PositionRepository
+from infrastructure.repositories.category_repository import CategoryRepository

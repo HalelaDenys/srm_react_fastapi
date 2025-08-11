@@ -39,7 +39,7 @@ async def get_users(
     user_service: Annotated["UserService", Depends(get_user_service)],
     filter_params: Annotated[FilterParamsSchema, Query()],
 ) -> list[ReadUserSchema]:
-    return await user_service.get_all_users(filter_params)
+    return await user_service.get_all(filter_params)
 
 
 @router.patch("/{user_id}", status_code=status.HTTP_200_OK)
