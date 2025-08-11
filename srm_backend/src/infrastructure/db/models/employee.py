@@ -32,5 +32,5 @@ class Employee(Base):
     def __repr__(self):
         return (
             f"{self.__class__.__name__}(id={self.id}, is_active={self.is_active}, "
-            f"is_admin={self.is_admin}, phone_number={self.phone_number}"
+            f"is_admin={self.is_admin}, phone_number={self.phone_number})"
         )

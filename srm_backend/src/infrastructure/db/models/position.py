@@ -18,5 +18,5 @@ class Position(Base):
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__name__}(id={self.id}, name={self.name}, "
-            f"created_at={self.created_at}, updated_at={self.updated_at}"
+            f"created_at={self.created_at}, updated_at={self.updated_at})"
         )
