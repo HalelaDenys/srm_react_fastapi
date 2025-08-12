@@ -1,6 +1,11 @@
 from infrastructure import Base
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import VARCHAR
+from typing import TYPE_CHECKING
+
+
+if TYPE_CHECKING:
+    from infrastructure import Service
 
 
 class Category(Base):
@@ -11,6 +16,11 @@ class Category(Base):
     """
 
     name: Mapped[str] = mapped_column(VARCHAR(50), unique=True)
+
+    services: Mapped[list["Service"]] = relationship(
+        "Service",
+        back_populates="category",
+    )
 
     def __repr__(self) -> str:
         return (
