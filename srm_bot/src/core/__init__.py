@@ -1,4 +1,5 @@
 __all__ = (
+    "api",
     "settings",
     "inline_keyboard_builder",
     "BookingStateForm",
@@ -7,3 +8,4 @@ __all__ = (
 from .config import settings
 from .keyboards.inline_fabrics import inline_keyboard_builder
 from .states import BookingStateForm
+from .service_api import api

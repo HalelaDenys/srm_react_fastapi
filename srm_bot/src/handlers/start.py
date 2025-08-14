@@ -1,16 +1,30 @@
-from aiogram import Router, types, html, F
+from aiogram import Router, F
 from aiogram.filters import CommandStart
+from aiogram.types import CallbackQuery, Message
+
 from core import inline_keyboard_builder
 
 router = Router()
 
 
-@router.message(CommandStart())
-@router.message(F.data == "start")
-async def command_start_handler(message: types.Message) -> None:
-    await message.answer(
+async def send_main_menu(target: CallbackQuery | Message):
+    await target.answer(
         "Menu",
         reply_markup=inline_keyboard_builder(
-            [("Бронювання", "create_booking"), ("Час роботи ", "work_time")]
+            [
+                ("Бронювання", "create_booking"),
+                ("Час роботи ", "work_time"),
+            ]
         ),
     )
+
+
+@router.message(CommandStart())
+async def start_from_message(message: Message):
+    await send_main_menu(message)
+
+
+@router.callback_query(F.data == "start")
+async def start_from_callback(callback: CallbackQuery):
+    await callback.message.delete()
+    await send_main_menu(callback.message)

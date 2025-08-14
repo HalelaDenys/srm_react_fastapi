@@ -2,12 +2,15 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import BaseModel
 from pathlib import Path
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 class BotConfig(BaseModel):
     token: str
+
+
+class ApiConfig(BaseSettings):
+    base_url: str = "http://0.0.0.0:8000/api/v1"
 
 
 class Settings(BaseSettings):
@@ -19,6 +22,7 @@ class Settings(BaseSettings):
     )
 
     bot: BotConfig
+    api: ApiConfig = ApiConfig()
 
 
 settings = Settings()
