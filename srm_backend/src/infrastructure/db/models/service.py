@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 
 if TYPE_CHECKING:
-    from infrastructure import Category
+    from infrastructure import Category, Booking
 
 
 class Service(Base):
@@ -17,6 +17,10 @@ class Service(Base):
     category: Mapped["Category"] = relationship(
         "Category",
         back_populates="services",
+    )
+
+    bookings: Mapped[list["Booking"]] = relationship(
+        "Booking", back_populates="service"
     )
 
     __table_args__ = (

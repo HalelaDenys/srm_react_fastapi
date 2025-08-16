@@ -49,5 +49,7 @@ class SQLAlchemyRepository(Generic[ModelType]):
         await self._session.flush()
 
     async def find_all(self, **kwargs) -> Sequence[ModelType]:
-        res = await self._session.execute(select(self._model).order_by(self._model.id))
+        res = await self._session.execute(
+            select(self._model).filter_by(**kwargs).order_by(self._model.id)
+        )
         return res.scalars().all()

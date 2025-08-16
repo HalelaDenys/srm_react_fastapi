@@ -14,6 +14,7 @@ class APIPrefix(BaseModel):
     employees: str = "/employees"
     positions: str = "/positions"
     categories: str = "/categories"
+    services: str = "/services"
 
 
 class DBConfig(BaseModel):
