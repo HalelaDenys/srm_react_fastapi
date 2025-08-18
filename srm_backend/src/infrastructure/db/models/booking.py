@@ -21,6 +21,9 @@ class Booking(Base):
         ForeignKey("users.id", ondelete="SET DEFAULT"), nullable=True, default=None
     )
     telegram_id: Mapped[Optional[int]] = mapped_column(nullable=True, default=None)
+    is_verified: Mapped[bool] = mapped_column(
+        default=False, nullable=False, server_default="False"
+    )
 
     user: Mapped[Optional["User"]] = relationship(
         "User",
