@@ -2,6 +2,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import BaseModel
 from typing import ClassVar
 from pathlib import Path
+from datetime import time, timedelta
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,6 +16,7 @@ class APIPrefix(BaseModel):
     positions: str = "/positions"
     categories: str = "/categories"
     services: str = "/services"
+    booking: str = "/booking"
 
 
 class DBConfig(BaseModel):
@@ -54,6 +56,12 @@ class AUTHConfig(BaseModel):
     algorithm: str = "HS256"
 
 
+class BookingConfig(BaseModel):
+    work_start: time = time(9, 0)
+    work_end: time = time(18, 0)
+    buffer: timedelta = timedelta(minutes=15)
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=BASE_DIR / ".env",
@@ -65,6 +73,7 @@ class Settings(BaseSettings):
     midd: MiddlewareConfig
     jwt: AUTHConfig
     api_prefix: APIPrefix = APIPrefix()
+    booking: BookingConfig = BookingConfig()
 
 
 settings = Settings()
